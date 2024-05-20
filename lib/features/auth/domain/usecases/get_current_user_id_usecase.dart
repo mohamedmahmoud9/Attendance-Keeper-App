@@ -1,4 +1,6 @@
+import 'package:attendance_keeper/core/errors/failure.dart';
 import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
+import 'package:dartz/dartz.dart';
 
 class GetCurrentUserIdUseCase {
 
@@ -6,7 +8,7 @@ class GetCurrentUserIdUseCase {
 
   GetCurrentUserIdUseCase({required this.repository});
 
-  Future<String> call()async{
+  Future<Either<Failure, String?>> call()async{
     return repository.getCurrentUId();
   }
 }

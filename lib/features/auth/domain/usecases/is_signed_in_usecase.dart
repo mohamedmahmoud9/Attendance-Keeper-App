@@ -1,4 +1,6 @@
+import 'package:attendance_keeper/core/errors/failure.dart';
 import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
+import 'package:dartz/dartz.dart';
 
 class IsSignedInUseCase {
 
@@ -6,7 +8,7 @@ class IsSignedInUseCase {
 
   IsSignedInUseCase({required this.firebaseRepository});
 
-  Future<bool> call() async {
+  Future<Either<Failure, bool>> call() async {
     return await firebaseRepository.isSignedIn();
   }
 }

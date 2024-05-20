@@ -16,7 +16,4 @@ class AuthSuccess extends AuthState {
   const AuthSuccess({required this.user});
 }
 
-class AuthFailure extends AuthState {
-  final String message;
-  const AuthFailure({required this.message});
-}
+class AuthFailure extends AuthState {}
