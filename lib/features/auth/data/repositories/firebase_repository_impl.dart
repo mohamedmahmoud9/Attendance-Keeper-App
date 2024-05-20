@@ -20,4 +20,12 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
 
   @override
   Future<void> signout() async => await firebaseRemoteDataSource.signout();
+
+  @override
+  Future<void> getCreateCurrentUser(UserEntity user) async =>
+      await firebaseRemoteDataSource.getCreateCurrentUser(user);
+
+  @override
+  Future<String> getCurrentUId() async =>
+      await firebaseRemoteDataSource.getCurrentUserId();
 }

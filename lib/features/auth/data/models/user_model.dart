@@ -8,7 +8,7 @@ class UserModel extends UserEntity {
     required super.email,
     required super.password,
     required super.confirmPassword,
-    required super.uid,
+    required super.userId,
   });
 
   factory UserModel.fromSnapshot(DocumentSnapshot documentSnapshot) {
@@ -18,7 +18,7 @@ class UserModel extends UserEntity {
       email: documentSnapshot['email'],
       password: documentSnapshot['password'],
       confirmPassword: documentSnapshot['confirmPassword'],
-      uid: documentSnapshot['uid'],
+      userId: documentSnapshot['userId'],
     );
   }
 
@@ -29,7 +29,7 @@ class UserModel extends UserEntity {
       'email': email,
       'password': password,
       'confirmPassword': confirmPassword,
-      'uid': uid,
+      'userId': userId,
     };
   }
 }
