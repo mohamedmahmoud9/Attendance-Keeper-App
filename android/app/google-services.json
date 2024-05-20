@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "170760649242",
+    "project_id": "attendance-keeper-4fc13",
+    "storage_bucket": "attendance-keeper-4fc13.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:170760649242:android:27830394781eb6d8d5efa3",
+        "android_client_info": {
+          "package_name": "com.example.attendance_keeper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUjGrJPBebgkfmYATJXHey1nxAQQb7ung"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
