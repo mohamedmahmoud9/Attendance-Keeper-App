@@ -7,7 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class FirebaseRemoteDataSource {
   Future<bool> isSignedIn();
-  Future<Unit> signin(SignInParams signInParams);
+  Future<UserCredential> signin(SignInParams signInParams);
   Future<Unit> signup(SignUpParams signUpParams);
   Future<Unit> signout();
   Future<String?> getCurrentUserId();
@@ -24,13 +24,13 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   Future<bool> isSignedIn() async => auth.currentUser != null;
 
   @override
-  Future<Unit> signin(SignInParams signInParams) async {
+  Future<UserCredential> signin(SignInParams signInParams) async {
     try {
-     await auth.signInWithEmailAndPassword(
+      final UserCredential userCredential = await auth.signInWithEmailAndPassword(
         email: signInParams.email,
         password: signInParams.password,
-      );
-      return unit;
+      ) ;
+      return userCredential;
     } catch (e) {
       rethrow;
     }
@@ -64,7 +64,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     try {
       final userCollectionRef = firestore.collection("users");
       final userId = await getCurrentUserId();
-      if(userId == null) throw Exception();
+      if (userId == null) throw Exception();
       final userSnapshot = await userCollectionRef.doc(userId).get();
       if (!userSnapshot.exists) {
         final newUser = UserModel(

@@ -1,13 +1,16 @@
 import 'package:attendance_keeper/core/errors/failure.dart';
 import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../../../core/usecases/usecase.dart';
 
-class SignInUseCase {
+class SignInUseCase extends Usecase<UserCredential, SignInParams> {
   final FirebaseRepository firebaseRepository;
 
   SignInUseCase({required this.firebaseRepository});
-
-  Future<Either<Failure, Unit>> call(SignInParams signInParams) async {
-    return await firebaseRepository.signin(signInParams);
+@override
+  Future<Either<Failure, UserCredential>> call(SignInParams params) async {
+    return await firebaseRepository.signin(params);
   }
 }
+

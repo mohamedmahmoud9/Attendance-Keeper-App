@@ -1,14 +1,14 @@
-import 'package:attendance_keeper/core/errors/failure.dart';
-import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
-import 'package:dartz/dartz.dart';
+// import 'package:attendance_keeper/core/errors/failure.dart';
+// import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
+// import 'package:dartz/dartz.dart';
 
-class GetCurrentUserIdUseCase {
+// class GetCurrentUserIdUseCase {
 
-  final FirebaseRepository repository;
+//   final FirebaseRepository repository;
 
-  GetCurrentUserIdUseCase({required this.repository});
+//   GetCurrentUserIdUseCase({required this.repository});
 
-  Future<Either<Failure, String?>> call()async{
-    return repository.getCurrentUserId();
-  }
-}
+//   Future<Either<Failure, String?>> call()async{
+//     return repository.getCurrentUserId();
+//   }
+// }

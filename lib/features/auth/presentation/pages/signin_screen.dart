@@ -5,9 +5,8 @@ import 'package:attendance_keeper/core/widgets/app_navigator.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
 import 'package:attendance_keeper/core/widgets/app_text_field.dart';
-import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:attendance_keeper/features/auth/injection_container.dart';
-import 'package:attendance_keeper/features/auth/presentation/cubits/user/user_cubit.dart';
+import 'package:attendance_keeper/features/auth/presentation/cubit/sign_in_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,11 +24,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<UserCubit>(
-      create: (context) => sl<UserCubit>(),
-      child: BlocBuilder<UserCubit, UserState>(
+    return BlocProvider<SignInCubit>(
+      create: (context) => sl<SignInCubit>(),
+      child: BlocBuilder<SignInCubit, SignInState>(
         builder: (BuildContext context, state) {
-          final UserCubit userCubit = context.watch<UserCubit>();
+          final SignInCubit signinCubit = context.read<SignInCubit>();
           return Scaffold(
             body: SafeArea(
               child: Center(
@@ -38,7 +37,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     padding:
                         EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
                     child: Form(
-                      key: userCubit.formKey,
+                      key: signinCubit.formKey,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -49,14 +48,14 @@ class _SignInScreenState extends State<SignInScreen> {
                               style: AppTextStyles.regular12),
                           verticalSpacing(30),
                           AppTextField(
-                            controller: userCubit.emailController,
+                            controller: signinCubit.emailController,
                             labelText: tr('email'),
                             keyboardType: TextInputType.emailAddress,
                             prefixIcon: const Icon(Icons.email),
                           ),
                           verticalSpacing(15),
                           AppTextField(
-                            controller: userCubit.passwordController,
+                            controller: signinCubit.passwordController,
                             labelText: tr('password'),
                             keyboardType: TextInputType.visiblePassword,
                             prefixIcon: IconButton(
@@ -72,20 +71,35 @@ class _SignInScreenState extends State<SignInScreen> {
                             obscureText: _obscureText,
                           ),
                           verticalSpacing(30),
-                          AppTextButton(
-                            onPressed: () {
-                              if (!userCubit.formKey.currentState!.validate()) {
-                                return;
+                          BlocConsumer<SignInCubit, SignInState>(
+                            listener: (context, state) {
+                              if (state is SignInSuccess) {
+                                context
+                                    .pushReplacementNamed(Routes.homeScreen);
                               }
-                              context.read<UserCubit>().submitSignIn(
-                                    SignInParams(
-                                      email: userCubit.emailController.text,
-                                      password:
-                                          userCubit.passwordController.text,
-                                    ),
-                                  );
+                              if (state is SignInError) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(state.message),
+                                  ),
+                                );
+                              }
                             },
-                            buttonText: tr('sign_in'),
+                            builder: (context, state) {
+                              if (state is SignInLoading) {
+                                return const Center(
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.appPrimary,
+                                  ),
+                                );
+                              }
+                              return AppTextButton(
+                                onPressed: () {
+                                  context.read<SignInCubit>().signIn();
+                                },
+                                buttonText: tr('sign_in'),
+                              );
+                            },
                           ),
                           verticalSpacing(30),
                           InkWell(

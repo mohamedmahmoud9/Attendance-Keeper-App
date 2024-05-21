@@ -1,14 +1,16 @@
 import 'package:attendance_keeper/core/errors/failure.dart';
-import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class FirebaseRepository {
-  Future<Either<Failure, bool>> isSignedIn();
-  Future<Either<Failure, Unit>> signin(SignInParams signInParams);
-  Future<Either<Failure, Unit>> signup(SignUpParams signUpParams);
+  // Future<Either<Failure, bool>> isSignedIn();
+
+  Future<Either<Failure, UserCredential>> autoSignin();
+  Future<Either<Failure, UserCredential>> signin(SignInParams signInParams);
+  Future<Either<Failure, UserCredential>> signup(SignUpParams signUpParams);
   Future<Either<Failure, Unit>> signout();
-  Future<Either<Failure, String?>> getCurrentUserId();
-  Future<Either<Failure, UserEntity>> getCreateCurrentUser(SignUpParams signUpParams);
+  // Future<Either<Failure, String?>> getCurrentUserId();
+  // Future<Either<Failure, UserEntity>> getCreateCurrentUser(SignUpParams signUpParams);
 }
 
 class SignUpParams {
