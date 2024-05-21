@@ -1,6 +1,8 @@
+import 'package:attendance_keeper/core/themes/app_text_styles.dart';
 import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
 import 'package:attendance_keeper/features/auth/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/user/user_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,10 +17,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<UserCubit>(
-      
       create: (context) => sl<UserCubit>(),
       child: BlocBuilder<UserCubit, UserState>(
-        builder: (BuildContext context, state) {
+          builder: (BuildContext context, state) {
         final UserCubit userCubit = context.watch<UserCubit>();
         return Scaffold(
           body: SafeArea(
@@ -34,9 +35,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         Center(
-                            child: Text('Sign Up',
-                                style:
-                                    Theme.of(context).textTheme.headlineLarge)),
+                            child: Text(tr('sign_up'),
+                                style: AppTextStyles.semiBold18)),
                         const SizedBox(height: 16.0),
                         TextField(
                           controller: userCubit.nameController,
