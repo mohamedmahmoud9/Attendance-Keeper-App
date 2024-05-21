@@ -9,6 +9,6 @@ class GetCurrentUserIdUseCase {
   GetCurrentUserIdUseCase({required this.repository});
 
   Future<Either<Failure, String?>> call()async{
-    return repository.getCurrentUId();
+    return repository.getCurrentUserId();
   }
 }

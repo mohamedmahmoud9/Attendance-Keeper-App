@@ -22,11 +22,10 @@ class AuthCubit extends Cubit<AuthState> {
     isSignIn.fold(
       (l) => emit(AuthFailure()),
       (r) async {
-        final userIdEither = await getCurrentUserIdUseCase();
-        userIdEither.fold(
-          (l) => emit(AuthFailure()),
-          (userId) => emit(AuthSuccess(user: UserEntity(userId: userId))),
-        );
+        final userId = await getCurrentUserIdUseCase();
+        userId.fold((l) => emit(AuthFailure()), (userId) {
+          //  emit(AuthSuccess()),
+        });
       },
     );
   }
@@ -34,10 +33,9 @@ class AuthCubit extends Cubit<AuthState> {
   Future<void> signedIn() async {
     emit(AuthLoading());
     final userIdEither = await getCurrentUserIdUseCase();
-    userIdEither.fold(
-      (l) => emit(AuthFailure()),
-      (userId) => emit(AuthSuccess(user: UserEntity(userId: userId))),
-    );
+    userIdEither.fold((l) => emit(AuthFailure()), (userId) {
+      //  emit(AuthSuccess(user: UserEntity(userId: userId))),
+    });
   }
 
   Future<void> signedOut() async {

@@ -12,8 +12,8 @@ class UserInitial extends UserState {}
 class UserLoading extends UserState {}
 
 class UserSuccess extends UserState {
-  final String userId;
-  const UserSuccess({required this.userId});
+  // final String userId;
+  // const UserSuccess({required this.userId});
 }
 
 class UserFailure extends UserState {

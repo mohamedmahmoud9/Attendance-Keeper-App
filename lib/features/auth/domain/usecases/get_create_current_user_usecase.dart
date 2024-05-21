@@ -7,8 +7,7 @@ class GetCreateCurrentUserUsecase {
   final FirebaseRepository repository;
 
   GetCreateCurrentUserUsecase({required this.repository});
-
-  Future<Either<Failure, Unit>> call(UserEntity user) async {
-    return repository.getCreateCurrentUser(user);
+  Future<Either<Failure, UserEntity>> call(SignUpParams signUpParams) async {
+    return repository.getCreateCurrentUser(signUpParams);
   }
 }

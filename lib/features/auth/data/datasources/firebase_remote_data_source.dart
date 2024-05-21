@@ -11,7 +11,7 @@ abstract class FirebaseRemoteDataSource {
   Future<Unit> signup(SignUpParams signUpParams);
   Future<Unit> signout();
   Future<String?> getCurrentUserId();
-  Future<Unit> getCreateCurrentUser(UserEntity user);
+  Future<UserEntity> getCreateCurrentUser(SignUpParams signUpParams);
 }
 
 class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
@@ -26,7 +26,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   @override
   Future<Unit> signin(SignInParams signInParams) async {
     try {
-      await auth.signInWithEmailAndPassword(
+     await auth.signInWithEmailAndPassword(
         email: signInParams.email,
         password: signInParams.password,
       );
@@ -60,25 +60,25 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   }
 
   @override
-  Future<Unit> getCreateCurrentUser(UserEntity user) async {
-    final userCollectionRef = firestore.collection("users");
-    final uid = await getCurrentUserId();
-    userCollectionRef.doc(uid).get().then(
-      (value) {
+  Future<UserEntity> getCreateCurrentUser(SignUpParams signUpParams) async {
+    try {
+      final userCollectionRef = firestore.collection("users");
+      final userId = await getCurrentUserId();
+      if(userId == null) throw Exception();
+      final userSnapshot = await userCollectionRef.doc(userId).get();
+      if (!userSnapshot.exists) {
         final newUser = UserModel(
-                userId: user.userId,
-                jobTitle: user.jobTitle,
-                email: user.email,
-                name: user.name,
-                password: user.password,
-                confirmPassword: user.confirmPassword)
-            .toDocument();
-        if (!value.exists) {
-          userCollectionRef.doc(uid).set(newUser);
-        }
-      },
-    );
-    return unit;
+          name: signUpParams.name,
+          email: signUpParams.email,
+          jobTitle: signUpParams.jobTitle,
+          userId: userId,
+        );
+        await userCollectionRef.doc(userId).set(newUser.toDocument());
+      }
+      return UserModel.fromSnapshot(userSnapshot);
+    } catch (e) {
+      rethrow;
+    }
   }
 
   @override

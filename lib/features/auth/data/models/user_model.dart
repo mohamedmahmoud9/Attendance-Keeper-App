@@ -6,8 +6,6 @@ class UserModel extends UserEntity {
     required super.name,
     required super.jobTitle,
     required super.email,
-    required super.password,
-    required super.confirmPassword,
     required super.userId,
   });
 
@@ -16,8 +14,6 @@ class UserModel extends UserEntity {
       name: documentSnapshot['name'],
       jobTitle: documentSnapshot['jobTitle'],
       email: documentSnapshot['email'],
-      password: documentSnapshot['password'],
-      confirmPassword: documentSnapshot['confirmPassword'],
       userId: documentSnapshot['userId'],
     );
   }
@@ -25,10 +21,8 @@ class UserModel extends UserEntity {
   Map<String, dynamic> toDocument() {
     return {
       'name': name,
-      'jobTitle': jobTitle,
+      'jobTitle': jobTitle, 
       'email': email,
-      'password': password,
-      'confirmPassword': confirmPassword,
       'userId': userId,
     };
   }

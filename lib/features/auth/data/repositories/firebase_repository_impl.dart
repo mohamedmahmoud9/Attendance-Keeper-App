@@ -50,17 +50,19 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> getCreateCurrentUser(UserEntity user) async {
+  Future<Either<Failure, UserEntity>> getCreateCurrentUser(
+      SignUpParams signUpParams) async {
     try {
-      await firebaseRemoteDataSource.getCreateCurrentUser(user);
-      return right(unit);
+      final userEntity =
+          await firebaseRemoteDataSource.getCreateCurrentUser(signUpParams);
+      return right(userEntity);
     } catch (e) {
       return left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Failure, String?>> getCurrentUId() async {
+  Future<Either<Failure, String?>> getCurrentUserId() async {
     try {
       final userId = await firebaseRemoteDataSource.getCurrentUserId();
       return right(userId);

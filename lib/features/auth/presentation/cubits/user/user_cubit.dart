@@ -1,5 +1,4 @@
 import 'package:attendance_keeper/core/errors/failure.dart';
-import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
 import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:attendance_keeper/features/auth/domain/usecases/get_create_current_user_usecase.dart';
 import 'package:attendance_keeper/features/auth/domain/usecases/sign_in_usecase.dart';
@@ -37,9 +36,8 @@ class UserCubit extends Cubit<UserState> {
     result.fold(
       (Failure l) => emit(UserFailure(message: l.toString())),
       (Unit r) {
-                debugPrint ('*********** SIGN IN SUCCESS **********');
-
-        //  emit(UserSuccess(userId: user.userId!)),
+        debugPrint ('*********** SIGN IN SUCCESS **********');
+         emit(UserSuccess());
       }
     );
   }
@@ -54,8 +52,8 @@ class UserCubit extends Cubit<UserState> {
     result.fold(
       (Failure l) => emit(UserFailure(message: l.toString())),
       (Unit r) {
-        // getCreateCurrentUserUseCase(signUpParams);
-        // emit(UserSuccess(userId: user.userId!));
+        getCreateCurrentUserUseCase(signUpParams);
+        emit(UserSuccess());
       },
     );
   }

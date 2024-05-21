@@ -7,8 +7,8 @@ abstract class FirebaseRepository {
   Future<Either<Failure, Unit>> signin(SignInParams signInParams);
   Future<Either<Failure, Unit>> signup(SignUpParams signUpParams);
   Future<Either<Failure, Unit>> signout();
-  Future<Either<Failure, String?>> getCurrentUId();
-  Future<Either<Failure, Unit>> getCreateCurrentUser(UserEntity user);
+  Future<Either<Failure, String?>> getCurrentUserId();
+  Future<Either<Failure, UserEntity>> getCreateCurrentUser(SignUpParams signUpParams);
 }
 
 class SignUpParams {
