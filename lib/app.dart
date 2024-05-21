@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:attendance_keeper/core/routers/app_router.dart';
 import 'package:attendance_keeper/features/auth/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
@@ -39,6 +41,7 @@ class TrueAttendanceKeeperApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           home: BlocBuilder<AutoSignInCubit, AutoSignInState>(
             builder: (context, state) {
+              log(state.toString());
               if (state is AutoSignInSuccess) {
                 return const HomeScreen();
               } else if (state is AutoSignInInitial ||

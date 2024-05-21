@@ -7,6 +7,7 @@ import 'package:attendance_keeper/features/auth/domain/usecases/sign_out_usecase
 import 'package:attendance_keeper/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
+import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_up/sign_up_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,6 +21,8 @@ Future<void> init() async {
   sl.registerLazySingleton<SignUpCubit>(() => SignUpCubit(signUpUseCase: sl()));
   sl.registerLazySingleton<AutoSignInCubit>(
       () => AutoSignInCubit(autoSignInUsecase: sl()));
+  sl.registerLazySingleton<SignOutCubit>(
+      () => SignOutCubit(signOutUseCase: sl()));
 
   // UseCases
   sl.registerLazySingleton<SignInUseCase>(

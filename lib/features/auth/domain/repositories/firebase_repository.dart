@@ -7,7 +7,7 @@ abstract class FirebaseRepository {
   Future<Either<Failure, User>> autoSignin(NoParams params);
   Future<Either<Failure, UserCredential>> signin(SignInParams signInParams);
   Future<Either<Failure, UserCredential>> signup(SignUpParams signUpParams);
-  Future<Either<Failure, Unit>> signout();
+  Future<Either<Failure, Unit>> signout(NoParams params);
 }
 
 class SignUpParams {

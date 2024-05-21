@@ -12,7 +12,7 @@ class AutoSignInCubit extends Cubit<AutoSignInState> {
 
   Future<void> autoSignIn() async {
     emit(AutoSignInLoading());
-    await Future.delayed(const Duration(seconds: 3));
+    // await  Future.delayed(const Duration(seconds: 3), );
     final result = await autoSignInUsecase(NoParams());
     result.fold(
       (failure) => emit(AutoSignInError(message: failure.message)),

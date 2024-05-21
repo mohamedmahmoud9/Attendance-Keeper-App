@@ -10,7 +10,7 @@ abstract class FirebaseRemoteDataSource {
   Future<UserCredential> signin(SignInParams signInParams);
   Future<User> autoSignin(NoParams params);
   Future<UserCredential> signup(SignUpParams signUpParams);
-  Future<Unit> signout();
+  Future<Unit> signout(NoParams params);
 }
 
 class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
@@ -71,7 +71,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   }
 
   @override
-  Future<Unit> signout() async {
+  Future<Unit> signout(NoParams params) async {
     try {
       await auth.signOut();
       return unit;

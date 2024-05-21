@@ -43,8 +43,11 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> signout() {
-    // TODO: implement signout
-    throw UnimplementedError();
+  Future<Either<Failure, Unit>> signout(NoParams params) async {
+    try {
+      return right(await firebaseRemoteDataSource.signout(params));
+    } on FirebaseAuthException catch (error) {
+      return left(FirbaseAuthFailureHelper.getFailure(error.code));
+    }
   }
 }
