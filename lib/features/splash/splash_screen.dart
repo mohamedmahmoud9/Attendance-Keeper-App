@@ -1,7 +1,7 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:attendance_keeper/core/constants/assets.dart';
 import 'package:attendance_keeper/core/themes/app_colors.dart';
-import 'package:attendance_keeper/features/auth/presentation/pages/signup_screen.dart';
+import 'package:attendance_keeper/features/auth/presentation/pages/signin_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
       pageTransitionType: PageTransitionType.fade,
       animationDuration: const Duration(milliseconds: 2000),
       splash: SvgPicture.asset(AppAssets.trueLogo, width: 400.w),
-      nextScreen: const SignUpScreen(),
+      nextScreen: const SignInScreen(),
       backgroundColor: AppColors.white,
     );
   }

@@ -23,5 +23,8 @@
     "or": "او",
     "no_internet": "لا يوجد انترنت",
     "no_internet_msg": "يرجى التحقق من الاتصال بالانترنت",
-    "please_enter_sign_up_details": "من فضلك أدخل البيانات التالية لتتمكن من انشاء حساب"
+    "please_enter_sign_up_details": "من فضلك أدخل البيانات التالية لتتمكن من انشاء حساب",
+    "please_enter_sign_in_details": "من فضلك أدخل البيانات التالية لتتمكن من تسجيل الدخول",
+    "dont_have_account" : "ليس لديك حساب؟",
+    "do_you_have_an_account" :  "لديك حساب بالفعل؟"
 }

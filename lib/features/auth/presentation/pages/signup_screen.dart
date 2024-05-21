@@ -1,4 +1,7 @@
+import 'package:attendance_keeper/core/routers/routes.dart';
+import 'package:attendance_keeper/core/themes/app_colors.dart';
 import 'package:attendance_keeper/core/themes/app_text_styles.dart';
+import 'package:attendance_keeper/core/widgets/app_navigator.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
 import 'package:attendance_keeper/core/widgets/app_text_field.dart';
@@ -119,6 +122,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   );
                             },
                             buttonText: tr('sign_up'),
+                          ),
+                          verticalSpacing(30),
+                          InkWell(
+                            onTap: () => context
+                                .pushReplacementNamed(Routes.signInScreen),
+                            child: Text.rich(
+                              TextSpan(
+                                style: AppTextStyles.regular12,
+                                children: <InlineSpan>[
+                                  TextSpan(
+                                    text: tr('do_you_have_an_account'),
+                                  ),
+                                  TextSpan(
+                                      text: ' ${tr('sign_in')}',
+                                      style: AppTextStyles.bold12.copyWith(
+                                          color: AppColors.appPrimary)),
+                                ],
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                         ],
                       ),

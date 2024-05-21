@@ -1,10 +1,13 @@
+import 'package:attendance_keeper/core/routers/app_router.dart';
 import 'package:attendance_keeper/features/splash/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TrueAttendanceKeeperApp extends StatelessWidget {
-  const TrueAttendanceKeeperApp({super.key});
+  final AppRouter appRouter;
+
+  const TrueAttendanceKeeperApp({super.key, required this.appRouter});
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -19,6 +22,7 @@ class TrueAttendanceKeeperApp extends StatelessWidget {
         locale: const Locale('ar'),
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
+        onGenerateRoute : appRouter.generateRoute,
       ),
     );
   }

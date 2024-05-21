@@ -1,11 +1,11 @@
 import 'package:attendance_keeper/app.dart';
+import 'package:attendance_keeper/core/routers/app_router.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'features/auth/injection_container.dart' as di;
 
 void main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: const FirebaseOptions(
@@ -26,7 +26,8 @@ void main() async {
     path: 'assets/languages',
     fallbackLocale: const Locale('ar'),
     startLocale: const Locale('ar'),
-    child: const TrueAttendanceKeeperApp(),
+    child: TrueAttendanceKeeperApp(
+      appRouter: AppRouter(),
+    ),
   ));
 }
-
