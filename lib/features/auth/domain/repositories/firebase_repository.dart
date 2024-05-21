@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 
 abstract class FirebaseRepository {
   Future<Either<Failure, bool>> isSignedIn();
-  Future<Either<Failure, Unit>> signin(UserEntity userEntity);
+  Future<Either<Failure, Unit>> signin(SignInParams signInParams);
   Future<Either<Failure, Unit>> signup(SignUpParams signUpParams);
   Future<Either<Failure, Unit>> signout();
   Future<Either<Failure, String?>> getCurrentUId();
@@ -30,6 +30,22 @@ class SignUpParams {
     return {
       'name': name,
       'jobTitle': jobTitle,
+      'email': email,
+    };
+  }
+}
+
+class SignInParams {
+  final String email;
+  final String password;
+
+  const SignInParams({
+    required this.email,
+    required this.password,
+  });
+
+  Map<String, dynamic> toDocument() {
+    return {
       'email': email,
     };
   }

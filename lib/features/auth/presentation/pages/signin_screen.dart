@@ -5,7 +5,7 @@ import 'package:attendance_keeper/core/widgets/app_navigator.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
 import 'package:attendance_keeper/core/widgets/app_text_field.dart';
-import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
+import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:attendance_keeper/features/auth/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/user/user_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -78,14 +78,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                 return;
                               }
                               context.read<UserCubit>().submitSignIn(
-                                    user: UserEntity(
-                                      name: userCubit.nameController.text,
-                                      jobTitle: userCubit.jobController.text,
+                                    SignInParams(
                                       email: userCubit.emailController.text,
                                       password:
                                           userCubit.passwordController.text,
-                                      confirmPassword: userCubit
-                                          .confirmPasswordController.text,
                                     ),
                                   );
                             },

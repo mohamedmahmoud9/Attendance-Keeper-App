@@ -7,8 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class FirebaseRemoteDataSource {
   Future<bool> isSignedIn();
-  Future<Unit> signin(UserEntity userEntity);
-  // !!!
+  Future<Unit> signin(SignInParams signInParams);
   Future<Unit> signup(SignUpParams signUpParams);
   Future<Unit> signout();
   Future<String?> getCurrentUserId();
@@ -25,11 +24,11 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   Future<bool> isSignedIn() async => auth.currentUser != null;
 
   @override
-  Future<Unit> signin(UserEntity userEntity) async {
+  Future<Unit> signin(SignInParams signInParams) async {
     try {
       await auth.signInWithEmailAndPassword(
-        email: userEntity.email!,
-        password: userEntity.password!,
+        email: signInParams.email,
+        password: signInParams.password,
       );
       return unit;
     } catch (e) {

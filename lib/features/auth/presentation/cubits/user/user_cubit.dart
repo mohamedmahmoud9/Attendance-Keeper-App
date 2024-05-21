@@ -28,15 +28,19 @@ class UserCubit extends Cubit<UserState> {
   final confirmPasswordController = TextEditingController();
   final jobController = TextEditingController();
 
-  Future<void> submitSignIn({required UserEntity user}) async {
+  Future<void> submitSignIn(SignInParams signInParams) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
     emit(UserLoading());
-    final Either<Failure, Unit> result = await signInUseCase(user);
+    final Either<Failure, Unit> result = await signInUseCase(signInParams);
     result.fold(
       (Failure l) => emit(UserFailure(message: l.toString())),
-      (Unit r) => emit(UserSuccess(userId: user.userId!)),
+      (Unit r) {
+                debugPrint ('*********** SIGN IN SUCCESS **********');
+
+        //  emit(UserSuccess(userId: user.userId!)),
+      }
     );
   }
 
