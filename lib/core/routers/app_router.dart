@@ -1,6 +1,7 @@
 import 'package:attendance_keeper/core/routers/routes.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signin_screen.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signup_screen.dart';
+import 'package:attendance_keeper/features/home/presentation/pages/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -16,6 +17,12 @@ class AppRouter {
       case Routes.signUpScreen:
         return MaterialPageRoute(
           builder: (context) => const SignUpScreen(),
+        );
+
+      // Home Screen
+      case Routes.homeScreen:
+        return MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
         );
 
       // Default

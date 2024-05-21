@@ -1,5 +1,6 @@
 import 'package:attendance_keeper/core/errors/failure.dart';
 import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
+import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:attendance_keeper/features/auth/domain/usecases/get_create_current_user_usecase.dart';
 import 'package:attendance_keeper/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:attendance_keeper/features/auth/domain/usecases/sign_up_usecase.dart';
@@ -39,18 +40,18 @@ class UserCubit extends Cubit<UserState> {
     );
   }
 
-  Future<void> submitSignUp({required UserEntity user}) async {
+  Future<void> submitSignUp(SignUpParams signUpParams) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
     emit(UserLoading());
 
-    final Either<Failure, Unit> result = await signUpUseCase(user);
+    final Either<Failure, Unit> result = await signUpUseCase(signUpParams);
     result.fold(
       (Failure l) => emit(UserFailure(message: l.toString())),
       (Unit r) {
-        getCreateCurrentUserUseCase(user);
-        emit(UserSuccess(userId: user.userId!));
+        // getCreateCurrentUserUseCase(signUpParams);
+        // emit(UserSuccess(userId: user.userId!));
       },
     );
   }

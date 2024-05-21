@@ -30,9 +30,9 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> signup(UserEntity userEntity) async {
+  Future<Either<Failure, Unit>> signup(SignUpParams signUpParams) async {
     try {
-      await firebaseRemoteDataSource.signup(userEntity);
+      await firebaseRemoteDataSource.signup(signUpParams);
       return right(unit);
     } catch (e) {
       return left(ServerFailure());

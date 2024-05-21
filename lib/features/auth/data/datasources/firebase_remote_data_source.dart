@@ -1,5 +1,6 @@
 import 'package:attendance_keeper/features/auth/data/models/user_model.dart';
 import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
+import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 abstract class FirebaseRemoteDataSource {
   Future<bool> isSignedIn();
   Future<Unit> signin(UserEntity userEntity);
-  Future<Unit> signup(UserEntity userEntity);
+  // !!!
+  Future<Unit> signup(SignUpParams signUpParams);
   Future<Unit> signout();
   Future<String?> getCurrentUserId();
   Future<Unit> getCreateCurrentUser(UserEntity user);
@@ -36,11 +38,11 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   }
 
   @override
-  Future<Unit> signup(UserEntity userEntity) async {
+  Future<Unit> signup(SignUpParams signUpParams) async {
     try {
       await auth.createUserWithEmailAndPassword(
-        email: userEntity.email!,
-        password: userEntity.password!,
+        email: signUpParams.email,
+        password: signUpParams.password,
       );
       return unit;
     } catch (e) {
