@@ -21,10 +21,17 @@
     "yes": "نعم",
     "no": "لا",
     "or": "او",
-    "no_internet": "لا يوجد انترنت",
+    "No_Internet_Connection": "لا يوجد انترنت",
     "no_internet_msg": "يرجى التحقق من الاتصال بالانترنت",
     "please_enter_sign_up_details": "من فضلك أدخل البيانات التالية لتتمكن من انشاء حساب",
     "please_enter_sign_in_details": "من فضلك أدخل البيانات التالية لتتمكن من تسجيل الدخول",
     "dont_have_account" : "ليس لديك حساب؟",
-    "do_you_have_an_account" :  "لديك حساب بالفعل؟"
+    "do_you_have_an_account" :  "لديك حساب بالفعل؟",
+    "Invalid_Email": "البريد الالكتروني غير صالح",
+    "Invalid_Credential" : "البريد الالكتروني او كلمة المرور غير صالحة",
+    "Wrong_Password" : "كلمة المرور خاطئة",
+    "User_Not_Found" : "هذا المستخدم غير موجود",
+    "User_Disabled" : "هذا المستخدم معطل",
+    "Server_Failure" : "فشل الخادم",
+    "Cache_Failure" : "فشل التخزين المؤقت"
 }

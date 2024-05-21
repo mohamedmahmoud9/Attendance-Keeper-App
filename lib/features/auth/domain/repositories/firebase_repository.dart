@@ -3,14 +3,10 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class FirebaseRepository {
-  // Future<Either<Failure, bool>> isSignedIn();
-
   Future<Either<Failure, UserCredential>> autoSignin();
   Future<Either<Failure, UserCredential>> signin(SignInParams signInParams);
   Future<Either<Failure, UserCredential>> signup(SignUpParams signUpParams);
   Future<Either<Failure, Unit>> signout();
-  // Future<Either<Failure, String?>> getCurrentUserId();
-  // Future<Either<Failure, UserEntity>> getCreateCurrentUser(SignUpParams signUpParams);
 }
 
 class SignUpParams {

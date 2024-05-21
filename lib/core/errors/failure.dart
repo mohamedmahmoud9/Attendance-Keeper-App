@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class Failure extends Equatable {
@@ -31,18 +32,18 @@ class FirbaseAuthFailureHelper {
 
 class InvalidEmail extends Failure {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 
   @override
-  String get message => 'Invalid Email';
+  String get message => tr('Invalid_Email');
 }
 
 class InvalidCredential extends Failure {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 
   @override
-  String get message => 'Invalid Credential';
+  String get message => tr('Invalid_Credential');
 }
 
 class WrongPassword extends Failure {
@@ -50,7 +51,7 @@ class WrongPassword extends Failure {
   List<Object?> get props => [];
 
   @override
-  String get message => 'Wrong Password';
+  String get message => tr('Wrong_Password');
 }
 
 class UseNotFound extends Failure {
@@ -58,7 +59,7 @@ class UseNotFound extends Failure {
   List<Object?> get props => [];
 
   @override
-  String get message => 'User Not Found';
+  String get message => tr('User_Not_Found');
 }
 
 class UserDisabled extends Failure {
@@ -66,7 +67,7 @@ class UserDisabled extends Failure {
   List<Object?> get props => [];
 
   @override
-  String get message => 'User Disabled';
+  String get message => tr('User_Disabled');
 }
 
 class OfflineFailure extends Failure {
@@ -74,7 +75,7 @@ class OfflineFailure extends Failure {
   List<Object?> get props => [];
 
   @override
-  String get message => 'No Internet Connection';
+  String get message => tr('No_Internet_Connection');
 }
 
 class ServerFailure extends Failure {
@@ -82,7 +83,7 @@ class ServerFailure extends Failure {
   List<Object?> get props => [];
 
   @override
-  String get message => 'Server Failure';
+  String get message => tr('Server_Failure');
 }
 
 class CacheFailure extends Failure {
@@ -90,5 +91,5 @@ class CacheFailure extends Failure {
   List<Object?> get props => [];
 
   @override
-  String get message => 'Cache Failure';
+  String get message => tr('Cache_Failure');
 }

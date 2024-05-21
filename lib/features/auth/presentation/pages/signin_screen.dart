@@ -6,7 +6,7 @@ import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
 import 'package:attendance_keeper/core/widgets/app_text_field.dart';
 import 'package:attendance_keeper/features/auth/injection_container.dart';
-import 'package:attendance_keeper/features/auth/presentation/cubit/sign_in_cubit.dart';
+import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,13 +74,17 @@ class _SignInScreenState extends State<SignInScreen> {
                           BlocConsumer<SignInCubit, SignInState>(
                             listener: (context, state) {
                               if (state is SignInSuccess) {
-                                context
-                                    .pushReplacementNamed(Routes.homeScreen);
+                                context.pushReplacementNamed(Routes.homeScreen);
                               }
                               if (state is SignInError) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text(state.message),
+                                    backgroundColor: AppColors.greyDark,
+                                    content: Text(
+                                      state.message,
+                                      style: AppTextStyles.medium14
+                                          .copyWith(color: AppColors.white),
+                                    ),
                                   ),
                                 );
                               }

@@ -10,11 +10,6 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   FirebaseRepositoryImpl({required this.firebaseRemoteDataSource});
 
   @override
-  Future<Either<Failure, UserCredential>> autoSignin() {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<Either<Failure, UserCredential>> signin(
       SignInParams signInParams) async {
     try {
@@ -22,18 +17,25 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
     } on FirebaseAuthException catch (error) {
       return left(FirbaseAuthFailureHelper.getFailure(error.code));
     }
-      }
+  }
 
-
-
-    @override
-    Future<Either<Failure, Unit>> signout() {
-      throw UnimplementedError();
-    }
-
-    @override
-    Future<Either<Failure, UserCredential>> signup(SignUpParams signUpParams) {
-      throw UnimplementedError();
+  @override
+  Future<Either<Failure, UserCredential>> signup(
+      SignUpParams signUpParams) async {
+    try {
+      return right(await firebaseRemoteDataSource.signup(signUpParams));
+    } on FirebaseAuthException catch (error) {
+      return left(FirbaseAuthFailureHelper.getFailure(error.code));
     }
   }
 
+  @override
+  Future<Either<Failure, UserCredential>> autoSignin() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signout() {
+    throw UnimplementedError();
+  }
+}

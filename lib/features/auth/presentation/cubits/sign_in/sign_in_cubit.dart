@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../../domain/repositories/firebase_repository.dart';
+import '../../../domain/repositories/firebase_repository.dart';
 part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
