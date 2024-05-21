@@ -93,3 +93,11 @@ class CacheFailure extends Failure {
   @override
   String get message => tr('Cache_Failure');
 }
+
+class AutoSignInFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+
+  @override
+  String get message => tr('Auto_Sign_In_Failure');
+}

@@ -1,9 +1,10 @@
 import 'package:attendance_keeper/core/errors/failure.dart';
+import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class FirebaseRepository {
-  Future<Either<Failure, UserCredential>> autoSignin();
+  Future<Either<Failure, User>> autoSignin(NoParams params);
   Future<Either<Failure, UserCredential>> signin(SignInParams signInParams);
   Future<Either<Failure, UserCredential>> signup(SignUpParams signUpParams);
   Future<Either<Failure, Unit>> signout();

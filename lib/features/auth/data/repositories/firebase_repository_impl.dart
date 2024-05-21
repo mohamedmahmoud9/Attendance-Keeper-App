@@ -1,4 +1,6 @@
+import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/errors/failure.dart';
+import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/features/auth/data/datasources/firebase_remote_data_source.dart';
 import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -30,12 +32,19 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   }
 
   @override
-  Future<Either<Failure, UserCredential>> autoSignin() {
-    throw UnimplementedError();
+  Future<Either<Failure, User>> autoSignin(NoParams params) async{
+    try {
+      return right(await firebaseRemoteDataSource.autoSignin(params));
+    } on FirebaseAuthException catch (error) {
+      return left(FirbaseAuthFailureHelper.getFailure(error.code));
+    } on AutoSignInException {
+      return left(AutoSignInFailure());
+    }
   }
 
   @override
   Future<Either<Failure, Unit>> signout() {
+    // TODO: implement signout
     throw UnimplementedError();
   }
 }

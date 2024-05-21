@@ -33,5 +33,6 @@
     "User_Not_Found" : "هذا المستخدم غير موجود",
     "User_Disabled" : "هذا المستخدم معطل",
     "Server_Failure" : "فشل الخادم",
-    "Cache_Failure" : "فشل التخزين المؤقت"
+    "Cache_Failure" : "فشل التخزين المؤقت",
+    "Auto_Sign_In_Failure" : "فشل تسجيل الدخول"
 }

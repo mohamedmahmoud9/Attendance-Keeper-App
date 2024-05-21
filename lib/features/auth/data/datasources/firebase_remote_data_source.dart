@@ -1,3 +1,5 @@
+import 'package:attendance_keeper/core/errors/exception.dart';
+import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/features/auth/data/models/user_model.dart';
 import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class FirebaseRemoteDataSource {
   Future<UserCredential> signin(SignInParams signInParams);
+  Future<User> autoSignin(NoParams params);
   Future<UserCredential> signup(SignUpParams signUpParams);
   Future<Unit> signout();
 }
@@ -57,6 +60,17 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
   }
 
   @override
+  Future<User> autoSignin(NoParams params) async {
+    try {
+      final user = auth.currentUser;
+      if (user == null) throw AutoSignInException();
+      return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
   Future<Unit> signout() async {
     try {
       await auth.signOut();
@@ -66,28 +80,3 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
     }
   }
 }
-
-  // @override
-  // Future<UserEntity> getCreateCurrentUser(SignUpParams signUpParams) async {
-  //   try {
-  //     final userCollectionRef = firestore.collection("users");
-  //     final userId = await getCurrentUserId();
-  //     if (userId == null) throw Exception();
-  //     final userSnapshot = await userCollectionRef.doc(userId).get();
-  //     if (!userSnapshot.exists) {
-  //       final newUser = UserModel(
-  //         name: signUpParams.name,
-  //         email: signUpParams.email,
-  //         jobTitle: signUpParams.jobTitle,
-  //         userId: userId,
-  //       );
-  //       await userCollectionRef.doc(userId).set(newUser.toDocument());
-  //     }
-  //     return UserModel.fromSnapshot(userSnapshot);
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
-  // @override
-  // Future<String?> getCurrentUserId() async => auth.currentUser?.uid;

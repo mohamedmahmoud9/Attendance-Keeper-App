@@ -13,9 +13,11 @@ class SignInCubit extends Cubit<SignInState> {
   SignInCubit({
     required this.signInUseCase,
   }) : super(SignInInitial());
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  
   Future<void> signIn() async {
     if (!formKey.currentState!.validate()) {
       return;
