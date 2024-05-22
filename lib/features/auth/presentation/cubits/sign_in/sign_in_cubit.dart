@@ -1,5 +1,7 @@
 import 'package:attendance_keeper/core/errors/failure.dart';
 import 'package:attendance_keeper/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:attendance_keeper/features/auth/injection_container.dart';
+import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +19,12 @@ class SignInCubit extends Cubit<SignInState> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  
+
+  void clearControllers() {
+    emailController.clear();
+    passwordController.clear();
+  }
+
   Future<void> signIn() async {
     if (!formKey.currentState!.validate()) {
       return;
@@ -25,13 +32,15 @@ class SignInCubit extends Cubit<SignInState> {
     emit(SignInLoading());
     final result = await signInUseCase(SignInParams(
         email: emailController.text, password: passwordController.text));
-    result.fold(
-      (Failure failure) {
-        emit(SignInError(
-          message: failure.message,
-        ));
-      },
-      (userCredential) => emit(SignInSuccess(userCredential: userCredential)),
-    );
+    result.fold((Failure failure) {
+      emit(SignInError(
+        message: failure.message,
+      ));
+    }, (userCredential) {
+      if (userCredential.user != null) {
+        sl<AutoSignInCubit>().emitSignIn(userCredential.user!);
+      }
+      emit(SignInSuccess(userCredential: userCredential));
+    });
   }
 }

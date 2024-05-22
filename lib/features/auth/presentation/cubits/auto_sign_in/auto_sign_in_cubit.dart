@@ -12,11 +12,19 @@ class AutoSignInCubit extends Cubit<AutoSignInState> {
 
   Future<void> autoSignIn() async {
     emit(AutoSignInLoading());
-    // await  Future.delayed(const Duration(seconds: 3), );
+    await Future.delayed(const Duration(seconds: 2));
     final result = await autoSignInUsecase(NoParams());
-    result.fold(
-      (failure) => emit(AutoSignInError(message: failure.message)),
-      (user) => emit(AutoSignInSuccess(user: user)),
-    );
+    result.fold((failure) => emit(AutoSignInError(message: failure.message)),
+        (user) async {
+      emit(AutoSignInSuccess(user: user));
+    });
+  }
+
+  void emitSignIn(User user) {
+    emit(AutoSignInSuccess(user: user));
+  }
+
+  void emitSignOut() {
+    emit(const AutoSignInError(message: ''));
   }
 }

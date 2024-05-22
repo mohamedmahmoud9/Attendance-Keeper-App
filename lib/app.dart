@@ -4,6 +4,7 @@ import 'package:attendance_keeper/core/routers/app_router.dart';
 import 'package:attendance_keeper/features/auth/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
+import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_up/sign_up_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signin_screen.dart';
 import 'package:attendance_keeper/features/home/presentation/pages/home_screen.dart';
@@ -34,6 +35,9 @@ class TrueAttendanceKeeperApp extends StatelessWidget {
           ),
           BlocProvider<AutoSignInCubit>(
             create: (context) => sl<AutoSignInCubit>()..autoSignIn(),
+          ),
+          BlocProvider<SignOutCubit>(
+            create: (context) => sl<SignOutCubit>(),
           ),
         ],
         child: MaterialApp(

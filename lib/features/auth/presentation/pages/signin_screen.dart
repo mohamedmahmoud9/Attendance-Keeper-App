@@ -24,117 +24,116 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SignInCubit>(
-      create: (context) => sl<SignInCubit>(),
-      child: BlocBuilder<SignInCubit, SignInState>(
-        builder: (BuildContext context, state) {
-          final SignInCubit signinCubit = context.read<SignInCubit>();
-          return Scaffold(
-            body: SafeArea(
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
-                    child: Form(
-                      key: signinCubit.formKey,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text(tr('sign_in'), style: AppTextStyles.bold20),
-                          verticalSpacing(15),
-                          Text(tr('please_enter_sign_in_details'),
-                              style: AppTextStyles.regular12),
-                          verticalSpacing(30),
-                          AppTextField(
-                            controller: signinCubit.emailController,
-                            labelText: tr('email'),
-                            keyboardType: TextInputType.emailAddress,
-                            prefixIcon: const Icon(Icons.email),
-                          ),
-                          verticalSpacing(15),
-                          AppTextField(
-                            controller: signinCubit.passwordController,
-                            labelText: tr('password'),
-                            keyboardType: TextInputType.visiblePassword,
-                            prefixIcon: IconButton(
-                              icon: _obscureText
-                                  ? const Icon(Icons.visibility_outlined)
-                                  : const Icon(Icons.visibility_off_outlined),
-                              onPressed: () {
-                                setState(() {
-                                  _obscureText = !_obscureText;
-                                });
-                              },
-                            ),
-                            obscureText: _obscureText,
-                          ),
-                          verticalSpacing(30),
-                          BlocConsumer<SignInCubit, SignInState>(
-                            listener: (context, state) {
-                              if (state is SignInSuccess) {
-                                context.pushReplacementNamed(Routes.homeScreen);
-                              }
-                              if (state is SignInError) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: AppColors.greyDark,
-                                    content: Text(
-                                      state.message,
-                                      style: AppTextStyles.medium14
-                                          .copyWith(color: AppColors.white),
-                                    ),
-                                  ),
-                                );
-                              }
+    return BlocBuilder<SignInCubit, SignInState>(
+      builder: (BuildContext context, state) {
+        final SignInCubit signinCubit = context.read<SignInCubit>();
+        return Scaffold(
+          body: SafeArea(
+            child: Center(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
+                  child: Form(
+                    key: signinCubit.formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text(tr('sign_in'), style: AppTextStyles.bold20),
+                        verticalSpacing(15),
+                        Text(tr('please_enter_sign_in_details'),
+                            style: AppTextStyles.regular12),
+                        verticalSpacing(30),
+                        AppTextField(
+                          controller: signinCubit.emailController,
+                          labelText: tr('email'),
+                          keyboardType: TextInputType.emailAddress,
+                          prefixIcon: const Icon(Icons.email),
+                        ),
+                        verticalSpacing(15),
+                        AppTextField(
+                          controller: signinCubit.passwordController,
+                          labelText: tr('password'),
+                          keyboardType: TextInputType.visiblePassword,
+                          prefixIcon: IconButton(
+                            icon: _obscureText
+                                ? const Icon(Icons.visibility_outlined)
+                                : const Icon(Icons.visibility_off_outlined),
+                            onPressed: () {
+                              setState(() {
+                                _obscureText = !_obscureText;
+                              });
                             },
-                            builder: (context, state) {
-                              if (state is SignInLoading) {
-                                return const Center(
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.appPrimary,
+                          ),
+                          obscureText: _obscureText,
+                        ),
+                        verticalSpacing(30),
+                        BlocConsumer<SignInCubit, SignInState>(
+                          listener: (context, state) {
+                            if (state is SignInError) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: AppColors.greyDark,
+                                  content: Text(
+                                    state.message,
+                                    style: AppTextStyles.medium14
+                                        .copyWith(color: AppColors.white),
                                   ),
-                                );
-                              }
-                              return AppTextButton(
-                                onPressed: () {
-                                  context.read<SignInCubit>().signIn();
-                                },
-                                buttonText: tr('sign_in'),
+                                ),
                               );
-                            },
-                          ),
-                          verticalSpacing(30),
-                          InkWell(
-                            onTap: () => context
-                                .pushReplacementNamed(Routes.signUpScreen),
-                            child: Text.rich(
-                              TextSpan(
-                                style: AppTextStyles.regular12,
-                                children: <InlineSpan>[
-                                  TextSpan(
-                                    text: tr('dont_have_account'),
-                                  ),
-                                  TextSpan(
-                                      text: ' ${tr('sign_up')}',
-                                      style: AppTextStyles.bold12.copyWith(
-                                          color: AppColors.appPrimary)),
-                                ],
-                              ),
-                              textAlign: TextAlign.center,
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is SignInLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.appPrimary,
+                                ),
+                              );
+                            }
+                            return AppTextButton(
+                              onPressed: () {
+                                context.read<SignInCubit>().signIn();
+                              },
+                              buttonText: tr('sign_in'),
+                            );
+                          },
+                        ),
+                        verticalSpacing(30),
+                        InkWell(
+                          onTap: () => context.pushNamed(Routes.signUpScreen),
+                          child: Text.rich(
+                            TextSpan(
+                              style: AppTextStyles.regular12,
+                              children: <InlineSpan>[
+                                TextSpan(
+                                  text: tr('dont_have_account'),
+                                ),
+                                TextSpan(
+                                    text: ' ${tr('sign_up')}',
+                                    style: AppTextStyles.bold12
+                                        .copyWith(color: AppColors.appPrimary)),
+                              ],
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    sl<SignInCubit>().clearControllers();
   }
 }
