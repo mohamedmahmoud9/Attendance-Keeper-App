@@ -28,6 +28,7 @@ class _SignInScreenState extends State<SignInScreen> {
       builder: (BuildContext context, state) {
         final SignInCubit signinCubit = context.read<SignInCubit>();
         return Scaffold(
+          backgroundColor: AppColors.white,
           body: SafeArea(
             child: Center(
               child: SingleChildScrollView(

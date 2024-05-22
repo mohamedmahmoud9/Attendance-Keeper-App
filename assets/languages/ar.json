@@ -7,8 +7,8 @@
     "email": "البريد الالكتروني",
     "password": "كلمة المرور",
     "comfirm_password": "تأكيد كلمة المرور",
-    "start_working": "بدايه الدوام",
-    "end_working": "نهاية الدوام",
+    "start_working": "بدء الدوام",
+    "end_working": "انهاء الدوام",
     "start_date": "تاريخ البدء",
     "end_date": "تاريخ الانتهاء",
     "submit": "ارسال",
@@ -34,5 +34,7 @@
     "User_Disabled" : "هذا المستخدم معطل",
     "Server_Failure" : "فشل الخادم",
     "Cache_Failure" : "فشل التخزين المؤقت",
-    "Auto_Sign_In_Failure" : "فشل تسجيل الدخول"
+    "Auto_Sign_In_Failure" : "فشل تسجيل الدخول",
+    "home_page" : "الصفحة الرئيسية",
+    "Welcome" : "مرحبا"
 }

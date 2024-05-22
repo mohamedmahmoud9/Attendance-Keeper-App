@@ -28,6 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       builder: (BuildContext context, state) {
         final SignUpCubit signUpCubit = context.read<SignUpCubit>();
         return Scaffold(
+          backgroundColor: AppColors.white,
           body: SafeArea(
             child: Center(
               child: SingleChildScrollView(
@@ -126,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               );
                             }
-    
+
                             return AppTextButton(
                               onPressed: () {
                                 context.read<SignUpCubit>().signUp();
@@ -147,8 +148,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                                 TextSpan(
                                     text: ' ${tr('sign_in')}',
-                                    style: AppTextStyles.bold12.copyWith(
-                                        color: AppColors.appPrimary)),
+                                    style: AppTextStyles.bold12
+                                        .copyWith(color: AppColors.appPrimary)),
                               ],
                             ),
                             textAlign: TextAlign.center,

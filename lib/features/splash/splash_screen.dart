@@ -12,7 +12,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Center(
-        child: SvgPicture.asset(AppAssets.trueLogo, width: 200.w),
+        child: SvgPicture.asset(AppAssets.trueLogo, width: 250.w),
       ),
     );
   }
