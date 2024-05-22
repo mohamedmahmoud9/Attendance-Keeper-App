@@ -72,8 +72,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           keyboardType: TextInputType.visiblePassword,
                           prefixIcon: IconButton(
                             icon: _obscureText1
-                                ? const Icon(Icons.visibility_outlined)
-                                : const Icon(Icons.visibility_off_outlined),
+                                ? const Icon(Icons.visibility_off_outlined)
+                                : const Icon(Icons.visibility_outlined),
                             onPressed: () {
                               setState(() {
                                 _obscureText1 = !_obscureText1;
@@ -89,8 +89,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           keyboardType: TextInputType.visiblePassword,
                           prefixIcon: IconButton(
                             icon: _obscureText2
-                                ? const Icon(Icons.visibility_outlined)
-                                : const Icon(Icons.visibility_off_outlined),
+                                ? const Icon(Icons.visibility_off_outlined)
+                                : const Icon(Icons.visibility_outlined),
                             onPressed: () {
                               setState(() {
                                 _obscureText2 = !_obscureText2;

@@ -58,8 +58,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           keyboardType: TextInputType.visiblePassword,
                           prefixIcon: IconButton(
                             icon: _obscureText
-                                ? const Icon(Icons.visibility_outlined)
-                                : const Icon(Icons.visibility_off_outlined),
+                                ? const Icon(Icons.visibility_off_outlined)
+                                : const Icon(Icons.visibility_outlined),
                             onPressed: () {
                               setState(() {
                                 _obscureText = !_obscureText;

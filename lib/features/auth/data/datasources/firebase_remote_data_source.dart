@@ -40,7 +40,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
         email: signUpParams.email,
         password: signUpParams.password,
       );
-      final userCollectionRef = firestore.collection("users");
+      final userCollectionRef = firestore.collection("users'data");
       final userId = userCredential.user?.uid;
       if (userId == null) throw Exception();
       final userSnapshot = await userCollectionRef.doc(userId).get();
