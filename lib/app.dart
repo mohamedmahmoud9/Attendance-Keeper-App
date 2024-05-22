@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:attendance_keeper/core/routers/app_router.dart';
-import 'package:attendance_keeper/features/auth/injection_container.dart';
+import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';

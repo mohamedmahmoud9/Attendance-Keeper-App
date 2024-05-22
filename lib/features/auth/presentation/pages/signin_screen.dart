@@ -5,7 +5,7 @@ import 'package:attendance_keeper/core/widgets/app_navigator.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
 import 'package:attendance_keeper/core/widgets/app_text_field.dart';
-import 'package:attendance_keeper/features/auth/injection_container.dart';
+import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

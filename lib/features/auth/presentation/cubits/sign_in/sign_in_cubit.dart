@@ -1,6 +1,6 @@
 import 'package:attendance_keeper/core/errors/failure.dart';
 import 'package:attendance_keeper/features/auth/domain/usecases/sign_in_usecase.dart';
-import 'package:attendance_keeper/features/auth/injection_container.dart';
+import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

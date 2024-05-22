@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:attendance_keeper/core/themes/app_colors.dart';
 import 'package:attendance_keeper/core/themes/app_text_styles.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
+import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/home_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,9 +55,32 @@ class HomeScreen extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: AppTextButton(
-                            buttonText: tr('start_working'),
-                            onPressed: () {},
+                          child: BlocProvider<StartWorkCubit>(
+                            create: (context) =>
+                                StartWorkCubit(startWorkUseCase: sl()),
+                            child: BlocConsumer<StartWorkCubit, StartWorkState>(
+                              listener: (context, state) {
+                                // if (state is StartWorkSuccess) {
+                                log(state.toString());
+                                // }
+                                // if (state is StartWorkFailure) {
+                                log(state.toString());
+                                // }
+                              },
+                              builder: (context, state) {
+                                if (state is StartWorkLoading) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                return AppTextButton(
+                                  buttonText: tr('start_working'),
+                                  onPressed: () {
+                                    context.read<StartWorkCubit>().startWork();
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ),
                         horizontalSpacing(20),

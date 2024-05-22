@@ -9,6 +9,7 @@ import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_up/sign_up_cubit.dart';
+import 'package:attendance_keeper/features/home/home_injection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
@@ -42,6 +43,7 @@ Future<void> init() async {
   sl.registerLazySingleton<FirebaseRemoteDataSource>(
       () => FirebaseRemoteDataSourceImpl(auth: sl(), firestore: sl()));
 
+  initHome();
   // Externals
   final auth = FirebaseAuth.instance;
   final fireStore = FirebaseFirestore.instance;
