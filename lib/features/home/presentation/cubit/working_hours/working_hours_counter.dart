@@ -6,8 +6,6 @@ class WorkingHoursCounter {
   static StreamSubscription<int>? subscription;
   static Stream<int> get stream => _controller.stream;
 
-  // static int _hours = 0;
-  // static int _minutes = 0;
   static int _seconds = 0;
 
   static int get seconds => _seconds;
@@ -21,15 +19,6 @@ class WorkingHoursCounter {
     _seconds = initialSeconds;
     _controller.sink.add(_seconds);
   }
-
-  // static void listen() {
-  //   subscription = _controller.stream.listen((event) {
-  // if (event is StartWorkSuccess) {
-  //     autoIncrement();
-  //   }
-  // },
-  //       );
-  // }
 
   static void autoIncrement() {
     if (timer?.isActive ?? false) {

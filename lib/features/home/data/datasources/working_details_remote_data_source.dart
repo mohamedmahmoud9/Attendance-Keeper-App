@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
@@ -29,14 +28,11 @@ class WorkingDetailsRemoteDataSourceImpl
       if (lastSlotIdCheck != null) {
         throw AlreadyWorkingException();
       }
-
       final dateTime = DateTime.now();
-
       firestore
           .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
           .doc(dateTime.toIso8601String().toString())
           .set({"start_time": Timestamp.fromDate(dateTime), "end_time": null});
-
       firestore
           .collection(FirebasePaths.users)
           .doc(auth.currentUser!.uid)
@@ -44,7 +40,6 @@ class WorkingDetailsRemoteDataSourceImpl
         "last_slot_id": dateTime.toIso8601String().toString(),
         "last_start_time": Timestamp.fromDate(dateTime),
       });
-
       return Future.value(unit);
     } catch (e) {
       if (e is AlreadyWorkingException) {
@@ -76,9 +71,7 @@ class WorkingDetailsRemoteDataSourceImpl
       if (lastSlotIdCheck == null) {
         throw NotWorkingException();
       }
-
       final dateTime = DateTime.now();
-
       firestore
           .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
           .doc(lastSlotIdCheck)
@@ -105,7 +98,6 @@ class WorkingDetailsRemoteDataSourceImpl
   Future<int> getTotalWorkingHours(DateTime dateTime) async {
     List<Slot> slots = await slotsStream(dateTime).first;
     log(slots.length.toString());
-
     int totalWorkingSeconds = slots.fold(0, (previousValue, element) {
       DateTime start = element.start.toDate();
       DateTime end = element.end?.toDate() ?? DateTime.now();
