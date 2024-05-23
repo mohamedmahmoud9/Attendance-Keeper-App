@@ -4,5 +4,6 @@ import 'package:dartz/dartz.dart';
 
 abstract class WorkingDetailsRepository {
   Future<Either<Failure, Unit>> startWork(NoParams noParams);
+  Future <Either<Failure, Unit>> endWork(NoParams noParams);
 }
 

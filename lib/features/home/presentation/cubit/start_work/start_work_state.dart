@@ -1,4 +1,4 @@
-part of 'home_cubit.dart';
+part of 'start_work_cubit.dart';
 
 abstract class StartWorkState extends Equatable {
   const StartWorkState();

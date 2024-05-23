@@ -1,3 +1,4 @@
+import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/features/auth/data/models/user_model.dart';
@@ -40,7 +41,7 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
         email: signUpParams.email,
         password: signUpParams.password,
       );
-      final userCollectionRef = firestore.collection("users");
+      final userCollectionRef = firestore.collection(FirebasePaths.users);
       final userId = userCredential.user?.uid;
       if (userId == null) throw Exception();
       final userSnapshot = await userCollectionRef.doc(userId).get();
@@ -50,6 +51,8 @@ class FirebaseRemoteDataSourceImpl implements FirebaseRemoteDataSource {
           email: signUpParams.email,
           jobTitle: signUpParams.jobTitle,
           userId: userId,
+          lastSlotId: null,
+          lastStartTime: null,
         );
         await userCollectionRef.doc(userId).set(newUser.toDocument());
       }

@@ -4,9 +4,10 @@ import 'package:attendance_keeper/core/themes/app_colors.dart';
 import 'package:attendance_keeper/core/themes/app_text_styles.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/end_work/end_work_cubit.dart';
 import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';
-import 'package:attendance_keeper/features/home/presentation/cubit/home_cubit.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/start_work/start_work_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,17 +61,25 @@ class HomeScreen extends StatelessWidget {
                                 StartWorkCubit(startWorkUseCase: sl()),
                             child: BlocConsumer<StartWorkCubit, StartWorkState>(
                               listener: (context, state) {
-                                // if (state is StartWorkSuccess) {
                                 log(state.toString());
-                                // }
-                                // if (state is StartWorkFailure) {
-                                log(state.toString());
-                                // }
+                                if (state is StartWorkFailure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: AppColors.greyDark,
+                                      content: Text(
+                                        state.message,
+                                        style: AppTextStyles.medium14
+                                            .copyWith(color: AppColors.white),
+                                      ),
+                                    ),
+                                  );
+                                }
                               },
                               builder: (context, state) {
                                 if (state is StartWorkLoading) {
                                   return const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                        color: AppColors.appPrimary),
                                   );
                                 }
                                 return AppTextButton(
@@ -85,9 +94,34 @@ class HomeScreen extends StatelessWidget {
                         ),
                         horizontalSpacing(20),
                         Expanded(
-                          child: AppTextButton(
-                            buttonText: tr('end_working'),
-                            onPressed: () {},
+                          child: BlocProvider(
+                            create: (context) =>
+                                EndWorkCubit(endWorkUseCase: sl()),
+                            child: BlocConsumer<EndWorkCubit, EndWorkState>(
+                              listener: (context, state) {
+                                log(state.toString());
+                                if (state is EndWorkFailure) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: AppColors.greyDark,
+                                      content: Text(
+                                        state.message,
+                                        style: AppTextStyles.medium14
+                                            .copyWith(color: AppColors.white),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                              builder: (context, state) {
+                                return AppTextButton(
+                                  buttonText: tr('end_working'),
+                                  onPressed: () {
+                                    context.read<EndWorkCubit>().endWork();
+                                  },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ],

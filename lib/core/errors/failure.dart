@@ -101,3 +101,19 @@ class AutoSignInFailure extends Failure {
   @override
   String get message => tr('Auto_Sign_In_Failure');
 }
+
+class AlreadyWorkingFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+
+  @override
+  String get message => tr('Already_Working_Failure');
+}
+
+class NotWorkingFailure extends Failure {
+  @override
+  List<Object?> get props => [];
+
+  @override
+  String get message => tr('Not_Working_Failure');
+}

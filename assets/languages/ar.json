@@ -36,5 +36,7 @@
     "Cache_Failure" : "فشل التخزين المؤقت",
     "Auto_Sign_In_Failure" : "فشل تسجيل الدخول",
     "home_page" : "الصفحة الرئيسية",
-    "Welcome" : "مرحبا"
+    "Welcome" : "مرحبا",
+    "Already_Working_Failure" : "لديك  بداية دوام مسجلة بالفعل",
+    "Not_Working_Failure" : "ليس لديك بداية دوام مسجلة"
 }
