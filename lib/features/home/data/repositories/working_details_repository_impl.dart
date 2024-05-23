@@ -33,4 +33,18 @@ class WorkingDetailsRepositoryImpl implements WorkingDetailsRepository {
       return Left(NotWorkingFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, (int, bool)>> getTotalWorkingHours(
+      DateTime dateTime) async {
+    try {
+      final int totalWorkingHours =
+          await workingDetailsRemoteDataSource.getTotalWorkingHours(dateTime);
+      final hasStarted =
+          await workingDetailsRemoteDataSource.lastSlotId() != null; 
+      return Right((totalWorkingHours, hasStarted));
+    } on ServerException catch (_) {
+      return Left(ServerFailure());
+    }
+  }
 }

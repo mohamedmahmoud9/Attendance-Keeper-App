@@ -1,10 +1,11 @@
 import 'dart:developer';
-
 import 'package:attendance_keeper/core/themes/app_colors.dart';
 import 'package:attendance_keeper/core/themes/app_text_styles.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/end_work/end_work_cubit.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_counter.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_cubit.dart';
 import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/start_work/start_work_cubit.dart';
@@ -13,9 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SignOutCubit, SignOutState>(
@@ -74,6 +80,9 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   );
                                 }
+                                if (state is StartWorkSuccess) {
+                                  WorkingHoursCounter.autoIncrement();
+                                }
                               },
                               builder: (context, state) {
                                 if (state is StartWorkLoading) {
@@ -112,6 +121,9 @@ class HomeScreen extends StatelessWidget {
                                     ),
                                   );
                                 }
+                                if (state is EndWorkSuccess) {
+                                  WorkingHoursCounter.stopTimer();
+                                }
                               },
                               builder: (context, state) {
                                 return AppTextButton(
@@ -125,6 +137,34 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
                       ],
+                    ),
+                    verticalSpacing(50),
+                    Center(
+                      child: BlocProvider(
+                        create: (context) =>
+                            sl<WorkingHoursCubit>()..getTotalWorkingHours(),
+                        child:
+                            BlocBuilder<WorkingHoursCubit, WorkingHoursState>(
+                          builder: (context, state) {
+                            return StreamBuilder(
+                                stream: WorkingHoursCounter.stream,
+                                initialData: WorkingHoursCounter.seconds,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  }
+                                  if (!snapshot.hasData) {
+                                    return const Center(
+                                        child: CircularProgressIndicator());
+                                  }
+                                  return Text(
+                                    'Working Hours: ${WorkingHoursCounter.hoursAndMinutesAndSeconds(snapshot.data!)}',
+                                    style: AppTextStyles.bold16,
+                                  );
+                                });
+                          },
+                        ),
+                      ),
                     ),
                     verticalSpacing(50),
                     Text(

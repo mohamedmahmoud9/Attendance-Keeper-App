@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
@@ -9,6 +11,7 @@ abstract class WorkingDetailsRemoteDataSource {
   Future<Unit> startWork(NoParams noParams);
   Future<Unit> endWork(NoParams noParams);
   Future<String?> lastSlotId();
+  Future<int> getTotalWorkingHours(DateTime dateTime);
 }
 
 class WorkingDetailsRemoteDataSourceImpl
@@ -97,4 +100,40 @@ class WorkingDetailsRemoteDataSourceImpl
       throw ServerException();
     }
   }
+
+  @override
+  Future<int> getTotalWorkingHours(DateTime dateTime) async {
+    List<Slot> slots = await slotsStream(dateTime).first;
+    log(slots.length.toString());
+
+    int totalWorkingSeconds = slots.fold(0, (previousValue, element) {
+      DateTime start = element.start.toDate();
+      DateTime end = element.end?.toDate() ?? DateTime.now();
+      Duration duration = end.difference(start);
+      return previousValue + duration.inSeconds;
+    });
+    return totalWorkingSeconds;
+  }
+
+  Stream<List<Slot>> slotsStream(DateTime dateTime) => firestore
+      .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
+      .snapshots()
+      .map((event) => event.docs.where((element) {
+            DateTime docDateTime = DateTime.parse(element.id);
+            log(docDateTime.toIso8601String());
+            return (docDateTime.year == dateTime.year &&
+                docDateTime.month == dateTime.month &&
+                docDateTime.day == dateTime.day);
+          }).map((e) {
+            Slot slot =
+                Slot(start: e.data()['start_time'], end: e.data()['end_time']);
+
+            return slot;
+          }).toList());
+}
+
+class Slot {
+  final Timestamp start;
+  final Timestamp? end;
+  Slot({required this.start, required this.end});
 }
