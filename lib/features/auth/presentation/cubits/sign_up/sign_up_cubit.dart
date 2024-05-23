@@ -30,8 +30,8 @@ class SignUpCubit extends Cubit<SignUpState> {
     }
     emit(SignUpLoading());
     final result = await signUpUseCase(SignUpParams(
-      name: emailController.text,
-      jobTitle: passwordController.text,
+      name: nameController.text,
+      jobTitle: jobTitleController.text,
       email: emailController.text,
       password: passwordController.text,
       confirmPassword: confirmPasswordController.text,

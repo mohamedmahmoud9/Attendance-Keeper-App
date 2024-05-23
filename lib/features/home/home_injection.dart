@@ -1,6 +1,8 @@
 import 'package:attendance_keeper/features/home/domain/usecases/end_work_usecase.dart';
 import 'package:attendance_keeper/features/home/domain/usecases/get_total_working_hours_usecase.dart';
+import 'package:attendance_keeper/features/home/domain/usecases/get_user_data_usecase.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/end_work/end_work_cubit.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/user_data/user_data_cubit.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_cubit.dart';
 import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/home/data/datasources/working_details_remote_data_source.dart';
@@ -17,6 +19,8 @@ Future<void> initHome() async {
       () => EndWorkCubit(endWorkUseCase: sl()));
   sl.registerLazySingleton<WorkingHoursCubit>(
       () => WorkingHoursCubit(getTotalWorkingHoursUseCase: sl()));
+  sl.registerLazySingleton<UserDataCubit>(
+      () => UserDataCubit(getUserDataUseCase: sl()));
 
   // UseCases
   sl.registerLazySingleton<StartWorkUseCase>(
@@ -25,6 +29,8 @@ Future<void> initHome() async {
       () => EndWorkUseCase(workingDetailsRepository: sl()));
   sl.registerLazySingleton<GetTotalWorkingHoursUseCase>(
       () => GetTotalWorkingHoursUseCase(workingDetailsRepository: sl()));
+  sl.registerLazySingleton<GetUserDataUseCase>(
+      () => GetUserDataUseCase(workingDetailsRepository: sl()));
 
   // Repositories
   sl.registerLazySingleton<WorkingDetailsRepository>(

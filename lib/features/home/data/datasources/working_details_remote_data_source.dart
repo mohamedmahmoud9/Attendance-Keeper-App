@@ -11,6 +11,7 @@ abstract class WorkingDetailsRemoteDataSource {
   Future<Unit> endWork(NoParams noParams);
   Future<String?> lastSlotId();
   Future<int> getTotalWorkingHours(DateTime dateTime);
+  Future<Map<String, dynamic>?> getUserData();
 }
 
 class WorkingDetailsRemoteDataSourceImpl
@@ -47,21 +48,6 @@ class WorkingDetailsRemoteDataSourceImpl
       }
       throw ServerException();
     }
-  }
-
-  @override
-  Future<String?> lastSlotId() {
-    return firestore
-        .collection(FirebasePaths.users)
-        .doc(auth.currentUser?.uid)
-        .get()
-        .then((value) {
-      if (value.exists) {
-        return value.data()?['last_slot_id'];
-      } else {
-        return null;
-      }
-    });
   }
 
   @override
@@ -122,6 +108,36 @@ class WorkingDetailsRemoteDataSourceImpl
 
             return slot;
           }).toList());
+
+  @override
+  Future<String?> lastSlotId() {
+    return firestore
+        .collection(FirebasePaths.users)
+        .doc(auth.currentUser?.uid)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        return value.data()?['last_slot_id'];
+      } else {
+        return null;
+      }
+    });
+  }
+
+  @override
+  Future<Map<String, dynamic>?> getUserData() {
+    return firestore
+        .collection(FirebasePaths.users)
+        .doc(auth.currentUser?.uid)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        return value.data();
+      } else {
+        return null;
+      }
+    });
+  }
 }
 
 class Slot {

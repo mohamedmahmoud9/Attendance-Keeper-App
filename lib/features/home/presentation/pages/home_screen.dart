@@ -4,6 +4,7 @@ import 'package:attendance_keeper/core/themes/app_text_styles.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/core/widgets/app_text_button.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/end_work/end_work_cubit.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/user_data/user_data_cubit.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_counter.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_cubit.dart';
 import 'package:attendance_keeper/injection_container.dart';
@@ -43,20 +44,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text.rich(
-                      TextSpan(
-                        style: AppTextStyles.regular12,
-                        children: <InlineSpan>[
-                          TextSpan(
-                              text: '${tr('Welcome')} ! ',
-                              style: AppTextStyles.bold16),
-                          TextSpan(
-                              text: 'fsdf',
-                              style: AppTextStyles.bold16
-                                  .copyWith(color: AppColors.appPrimary)),
-                        ],
-                      ),
-                      textAlign: TextAlign.center,
+                    Row(
+                      children: [
+                        Text(
+                          '${tr('Welcome')} ! ',
+                          style: AppTextStyles.bold16,
+                        ),
+                        BlocProvider(
+                          create: (context) =>
+                              sl<UserDataCubit>()..getUserData(),
+                          child: BlocBuilder<UserDataCubit, UserDataState>(
+                            builder: (context, state) {
+                              if (state is UserDataLoading) {
+                                return const Center(
+                                    child: CircularProgressIndicator(
+                                  color: AppColors.appPrimary,
+                                ));
+                              }
+                              if (state is UserDataError) {
+                                return Text(state.message);
+                              }
+                              if (state is UserDataLoaded) {
+                                return Text(
+                                  '${state.user?['name']} ',
+                                  style: AppTextStyles.bold16.copyWith(
+                                    color: AppColors.appPrimary,
+                                  ),
+                                );
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     verticalSpacing(50),
                     Row(
@@ -126,6 +146,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }
                               },
                               builder: (context, state) {
+                                if (state is EndWorkLoading) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(
+                                        color: AppColors.appPrimary),
+                                  );
+                                }
                                 return AppTextButton(
                                   buttonText: tr('end_working'),
                                   onPressed: () {
@@ -147,31 +173,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             BlocBuilder<WorkingHoursCubit, WorkingHoursState>(
                           builder: (context, state) {
                             return StreamBuilder(
-                                stream: WorkingHoursCounter.stream,
-                                initialData: WorkingHoursCounter.seconds,
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return Text('Error: ${snapshot.error}');
-                                  }
-                                  if (!snapshot.hasData) {
-                                    return const Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                  return Text(
-                                    'Working Hours: ${WorkingHoursCounter.hoursAndMinutesAndSeconds(snapshot.data!)}',
-                                    style: AppTextStyles.bold16,
-                                  );
-                                });
+                              stream: WorkingHoursCounter.stream,
+                              initialData: WorkingHoursCounter.seconds,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                }
+                                if (!snapshot.hasData) {
+                                  return const Center(
+                                      child: CircularProgressIndicator());
+                                }
+                                return Text(
+                                  'Working Hours: ${WorkingHoursCounter.hoursAndMinutesAndSeconds(snapshot.data!)}',
+                                  style: AppTextStyles.bold16,
+                                );
+                              },
+                            );
                           },
                         ),
                       ),
                     ),
                     verticalSpacing(50),
-                    Text(
-                      '${tr('start_date')} :',
-                      style: AppTextStyles.bold16,
-                    ),
-                    verticalSpacing(10),
                     Text(
                       '2022-01-01',
                       style: AppTextStyles.regular14,

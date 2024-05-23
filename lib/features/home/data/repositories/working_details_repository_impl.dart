@@ -41,8 +41,19 @@ class WorkingDetailsRepositoryImpl implements WorkingDetailsRepository {
       final int totalWorkingHours =
           await workingDetailsRemoteDataSource.getTotalWorkingHours(dateTime);
       final hasStarted =
-          await workingDetailsRemoteDataSource.lastSlotId() != null; 
+          await workingDetailsRemoteDataSource.lastSlotId() != null;
       return Right((totalWorkingHours, hasStarted));
+    } on ServerException catch (_) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, dynamic>?>> getUserData(
+      NoParams noParams) async {
+    try {
+      final userData = await workingDetailsRemoteDataSource.getUserData();
+      return Right(userData);
     } on ServerException catch (_) {
       return Left(ServerFailure());
     }
