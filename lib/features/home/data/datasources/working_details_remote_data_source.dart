@@ -2,13 +2,14 @@ import 'dart:developer';
 import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
+import 'package:attendance_keeper/features/home/domain/repositories/working_details_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class WorkingDetailsRemoteDataSource {
   Future<Unit> startWork(NoParams noParams);
-  Future<Unit> endWork(NoParams noParams);
+  Future<Unit> endWork(EndWorkParams endWorkParams);
   Future<String?> lastSlotId();
   Future<int> getTotalWorkingHours(DateTime dateTime);
   Future<Map<String, dynamic>?> getUserData();
@@ -33,7 +34,11 @@ class WorkingDetailsRemoteDataSourceImpl
       firestore
           .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
           .doc(dateTime.toIso8601String().toString())
-          .set({"start_time": Timestamp.fromDate(dateTime), "end_time": null});
+          .set({
+        "start_time": Timestamp.fromDate(dateTime),
+        "end_time": null,
+        "tasks": null
+      });
       firestore
           .collection(FirebasePaths.users)
           .doc(auth.currentUser!.uid)
@@ -51,7 +56,7 @@ class WorkingDetailsRemoteDataSourceImpl
   }
 
   @override
-  Future<Unit> endWork(NoParams noParams) async {
+  Future<Unit> endWork(EndWorkParams endWorkParams) async {
     try {
       final String? lastSlotIdCheck = await lastSlotId();
       if (lastSlotIdCheck == null) {
@@ -61,7 +66,10 @@ class WorkingDetailsRemoteDataSourceImpl
       firestore
           .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
           .doc(lastSlotIdCheck)
-          .update({"end_time": Timestamp.fromDate(dateTime)});
+          .update({
+        "end_time": Timestamp.fromDate(dateTime),
+        "tasks": endWorkParams.tasks
+      });
 
       firestore
           .collection(FirebasePaths.users)
@@ -103,9 +111,10 @@ class WorkingDetailsRemoteDataSourceImpl
                 docDateTime.month == dateTime.month &&
                 docDateTime.day == dateTime.day);
           }).map((e) {
-            Slot slot =
-                Slot(start: e.data()['start_time'], end: e.data()['end_time']);
-
+            Slot slot = Slot(
+                start: e.data()['start_time'],
+                end: e.data()['end_time'],
+                tasks: e.data()['tasks']);
             return slot;
           }).toList());
 
@@ -143,5 +152,6 @@ class WorkingDetailsRemoteDataSourceImpl
 class Slot {
   final Timestamp start;
   final Timestamp? end;
-  Slot({required this.start, required this.end});
+  final String? tasks;
+  Slot({required this.start, required this.end, required this.tasks});
 }

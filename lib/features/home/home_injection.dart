@@ -15,7 +15,7 @@ Future<void> initHome() async {
   // Cubits
   sl.registerLazySingleton<StartWorkCubit>(
       () => StartWorkCubit(startWorkUseCase: sl()));
-  sl.registerLazySingleton<EndWorkCubit>(
+  sl. registerFactory<EndWorkCubit>(
       () => EndWorkCubit(endWorkUseCase: sl()));
   sl.registerLazySingleton<WorkingHoursCubit>(
       () => WorkingHoursCubit(getTotalWorkingHoursUseCase: sl()));

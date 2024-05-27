@@ -3,13 +3,13 @@ import 'package:attendance_keeper/features/home/domain/repositories/working_deta
 import 'package:dartz/dartz.dart';
 import '../../../../core/usecases/usecase.dart';
 
-class EndWorkUseCase extends Usecase<Unit, NoParams> {
+class EndWorkUseCase extends Usecase<Unit, EndWorkParams> {
   final WorkingDetailsRepository workingDetailsRepository;
 
   EndWorkUseCase({required this.workingDetailsRepository});
 
   @override
-  Future<Either<Failure, Unit>> call(NoParams params) async {
+  Future<Either<Failure, Unit>> call(EndWorkParams params) async {
     return await workingDetailsRepository.endWork(params);
   }
 }

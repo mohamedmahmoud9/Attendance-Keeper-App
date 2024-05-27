@@ -23,9 +23,9 @@ class WorkingDetailsRepositoryImpl implements WorkingDetailsRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> endWork(NoParams noParams) async {
+  Future<Either<Failure, Unit>> endWork(EndWorkParams endWorkParams) async {
     try {
-      await workingDetailsRemoteDataSource.endWork(noParams);
+      await workingDetailsRemoteDataSource.endWork(endWorkParams);
       return const Right(unit);
     } on ServerException catch (_) {
       return Left(ServerFailure());

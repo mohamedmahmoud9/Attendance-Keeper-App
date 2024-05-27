@@ -17,41 +17,38 @@ class EndButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => EndWorkCubit(endWorkUseCase: sl()),
-      child: BlocConsumer<EndWorkCubit, EndWorkState>(
-        listener: (context, state) {
-          log(state.toString());
-          if (state is EndWorkFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: AppColors.greyDark,
-                content: Text(
-                  state.message,
-                  style:
-                      AppTextStyles.medium14.copyWith(color: AppColors.white),
-                ),
+    return BlocConsumer<EndWorkCubit, EndWorkState>(
+      listener: (context, state) {
+        log(state.toString());
+        if (state is EndWorkFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: AppColors.greyDark,
+              content: Text(
+                state.message,
+                style: AppTextStyles.medium14.copyWith(color: AppColors.white),
               ),
-            );
-          }
-          if (state is EndWorkSuccess) {
-            WorkingHoursCounter.stopTimer();
-          }
-        },
-        builder: (context, state) {
-          if (state is EndWorkLoading) {
-            return const Center(
-              child: CircularProgressIndicator(color: AppColors.appPrimary),
-            );
-          }
-          return AppTextButton(
-            buttonText: tr('end_working'),
-            onPressed: () {
-              context.read<EndWorkCubit>().endWork();
-            },
+            ),
           );
-        },
-      ),
+        }
+        if (state is EndWorkSuccess) {
+          WorkingHoursCounter.stopTimer();
+          
+        }
+      },
+      builder: (context, state) {
+        if (state is EndWorkLoading) {
+          return const Center(
+            child: CircularProgressIndicator(color: AppColors.appPrimary),
+          );
+        }
+        return AppTextButton(
+          buttonText: tr('end_working'),
+          onPressed: () {
+            context.read<EndWorkCubit>().endWork();
+          },
+        );
+      },
     );
   }
 }
