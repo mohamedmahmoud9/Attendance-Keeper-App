@@ -1,7 +1,9 @@
 import 'package:attendance_keeper/core/routers/routes.dart';
+import 'package:attendance_keeper/features/analytics/presentation/pages/analytics_screen.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signin_screen.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signup_screen.dart';
 import 'package:attendance_keeper/features/home/presentation/pages/home_screen.dart';
+import 'package:attendance_keeper/features/profile/presentation/pages/profile_screen.dart';
 import 'package:attendance_keeper/features/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +15,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const SplashScreen(),
         );
-        
+
       // Sign in Screen
       case Routes.signInScreen:
         return MaterialPageRoute(
@@ -30,6 +32,18 @@ class AppRouter {
       case Routes.homeScreen:
         return MaterialPageRoute(
           builder: (context) => const HomeScreen(),
+        );
+
+      // Analytics Screen
+      case Routes.analyticsScreen:
+        return MaterialPageRoute(
+          builder: (context) => const AnalyticsScreen(),
+        );
+
+      // Profile Screen
+      case Routes.profileScreen:
+        return MaterialPageRoute(
+          builder: (context) => const ProfileScreen(),
         );
 
       // Default

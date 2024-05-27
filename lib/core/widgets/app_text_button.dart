@@ -11,15 +11,16 @@ class AppTextButton extends StatelessWidget {
   final String buttonText;
   final TextStyle? textStyle;
   final VoidCallback onPressed;
-  const AppTextButton(
-      {super.key,
-      this.borderRadius,
-      this.backgroundColor,
-      this.buttonWidth,
-      this.buttonHeight,
-      required this.buttonText,
-      this.textStyle,
-      required this.onPressed});
+  const AppTextButton({
+    super.key,
+    this.borderRadius,
+    this.backgroundColor,
+    this.buttonWidth,
+    this.buttonHeight,
+    required this.buttonText,
+    this.textStyle,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {

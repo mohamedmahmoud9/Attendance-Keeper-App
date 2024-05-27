@@ -9,20 +9,29 @@ class WorkingHoursCubit extends Cubit<WorkingHoursState> {
   final GetTotalWorkingHoursUseCase getTotalWorkingHoursUseCase;
 
   WorkingHoursCubit({required this.getTotalWorkingHoursUseCase})
-      : super(WorkingHoursInitial());
+      : super(const WorkingHoursInitial(false));
 
   Future<void> getTotalWorkingHours() async {
-    emit(WorkingHoursLoading());
+    emit(const WorkingHoursLoading(false));
 
     final result = await getTotalWorkingHoursUseCase(DateTime.now());
     result.fold((failure) {
-      emit(WorkingHoursFailure(message: failure.message));
+      emit(WorkingHoursFailure(false, message: failure.message));
     }, (totalWorkingHours) {
-      emit(WorkingHoursSuccess(totalWorkingHours: totalWorkingHours.$1));
+      emit(WorkingHoursSuccess(totalWorkingHours.$2,
+          totalWorkingHours: totalWorkingHours.$1));
       WorkingHoursCounter.setInitialSeconds(totalWorkingHours.$1);
       if (totalWorkingHours.$2) {
         WorkingHoursCounter.autoIncrement();
       }
     });
+  }
+
+  void startWork() {
+    emit(state.copyWith(isStartWork: true));
+  }
+
+  void endWork() {
+    emit(state.copyWith(isStartWork: false));
   }
 }

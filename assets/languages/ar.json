@@ -38,5 +38,15 @@
     "home_page" : "الصفحة الرئيسية",
     "Welcome" : "مرحبا",
     "Already_Working_Failure" : "لديك  بداية دوام مسجلة بالفعل",
-    "Not_Working_Failure" : "ليس لديك بداية دوام مسجلة"
+    "Not_Working_Failure" : "ليس لديك بداية دوام مسجلة",
+    "analytics_page" : "الاحصائيات",
+    "profile_page" : "الملف الشخصي",
+    "lets_start_working_and_wish_you_a_good_day" : "لنبدأ الدوام .. تمنياتنا لك بيوم عمل موفق",
+    "today_date" : "تاريخ اليوم",
+    "total_working_hours_today": "عدد ساعات العمل اليوم",
+    "today_assignments": "مهام اليوم",
+    "enter_today_tasks" : "ادخل مهام اليوم . . .",
+    "seconds" : "ثواني",
+    "minutes" : "دقائق",
+    "hours" : "ساعات"
 }

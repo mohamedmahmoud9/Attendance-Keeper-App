@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:attendance_keeper/core/routers/app_router.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_cubit.dart';
 import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
@@ -38,8 +39,14 @@ class TrueAttendanceKeeperApp extends StatelessWidget {
           BlocProvider<SignOutCubit>(
             create: (context) => sl<SignOutCubit>(),
           ),
+          BlocProvider<WorkingHoursCubit>(
+              create: (context) =>
+                  sl<WorkingHoursCubit>()..getTotalWorkingHours()),
         ],
         child: MaterialApp(
+          theme: ThemeData(
+            fontFamily: 'Cairo',
+          ),
           title: 'True Attendance Keeper',
           debugShowCheckedModeBanner: false,
           home: BlocBuilder<AutoSignInCubit, AutoSignInState>(

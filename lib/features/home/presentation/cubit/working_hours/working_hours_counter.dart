@@ -10,8 +10,14 @@ class WorkingHoursCounter {
 
   static int get seconds => _seconds;
 
-  static String hoursAndMinutesAndSeconds(int seconds) =>
-      '${seconds ~/ 3600}:${(seconds % 3600) ~/ 60}:${seconds % 60}';
+  static Time hoursAndMinutesAndSeconds(int seconds) {
+    int hours = seconds ~/ 3600;
+    int remainingSecondsAfterHours = seconds % 3600;
+    int minutes = remainingSecondsAfterHours ~/ 60;
+    int remainingSeconds = remainingSecondsAfterHours % 60;
+
+    return Time(hours: hours, minutes: minutes, seconds: remainingSeconds);
+  }
 
   static Timer? timer;
 
@@ -38,4 +44,12 @@ class WorkingHoursCounter {
   static void stopTimer() {
     timer?.cancel();
   }
+}
+
+class Time {
+  final int hours;
+  final int minutes;
+  final int seconds;
+
+  Time({required this.hours, required this.minutes, required this.seconds});
 }

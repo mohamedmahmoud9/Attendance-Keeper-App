@@ -1,5 +1,7 @@
 import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/features/home/domain/usecases/start_work_usecase.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_cubit.dart';
+import 'package:attendance_keeper/injection_container.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -17,6 +19,8 @@ class StartWorkCubit extends Cubit<StartWorkState> {
       emit(StartWorkFailure(message: failure.message));
     }, (r) {
       emit(StartWorkSuccess());
+      sl<WorkingHoursCubit>().startWork();
+
     });
   }
   
