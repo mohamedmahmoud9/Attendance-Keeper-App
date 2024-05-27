@@ -48,5 +48,6 @@
     "enter_today_tasks" : "ادخل مهام اليوم . . .",
     "seconds" : "ثواني",
     "minutes" : "دقائق",
-    "hours" : "ساعات"
+    "hours" : "ساعات",
+    "must_start_to_add_tasks" : "يجب عليك بدء الدوام لاضافة مهام"
 }

@@ -16,7 +16,7 @@ class TasksAndStartAndEndWork extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 30.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -29,33 +29,69 @@ class TasksAndStartAndEndWork extends StatelessWidget {
             ],
           ),
           verticalSpacing(7),
-          TextField(
-            // controller: ,
-            maxLines: 5,
-            decoration: InputDecoration(
-              hintText: tr('enter_today_tasks'),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.r),
+          BlocSelector<WorkingHoursCubit, WorkingHoursState, bool>(
+            selector: (state) => state.isStartWork,
+            builder: (context, isStarted) {
+              return TextField(
+                readOnly: !isStarted,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: isStarted
+                      ? tr('enter_today_tasks')
+                      : tr('must_start_to_add_tasks'),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.r),
+                    ),
+                    borderSide: BorderSide(
+                      width: 1.w,
+                      color: AppColors.red,
+                    ),
+                  ),
+                  enabledBorder: isStarted
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.r),
+                          ),
+                          borderSide: BorderSide(
+                            width: 1.w,
+                            color: AppColors.greyDark,
+                          ),
+                        )
+                      : OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.r),
+                          ),
+                          borderSide: BorderSide(
+                            width: 1.w,
+                            color: AppColors.red,
+                          ),
+                        ),
+                  focusedBorder: isStarted
+                      ? OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.r),
+                          ),
+                          borderSide: BorderSide(
+                            width: 1.w,
+                            color: AppColors.appPrimary,
+                          ),
+                        )
+                      : OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10.r),
+                          ),
+                          borderSide: BorderSide(
+                            width: 1.w,
+                            color: Colors.red,
+                          ),
+                        ),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
                 ),
-                borderSide: BorderSide(
-                  width: 1.w,
-                  color: AppColors.greyDark,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.r),
-                ),
-                borderSide: BorderSide(
-                  width: 1.w,
-                  color: AppColors.appPrimary,
-                ),
-              ),
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-            ),
-            onChanged: (value) {},
+                onChanged: (value) {},
+              );
+            },
           ),
           verticalSpacing(50),
           BlocSelector<WorkingHoursCubit, WorkingHoursState, bool>(
@@ -67,34 +103,6 @@ class TasksAndStartAndEndWork extends StatelessWidget {
                   return const StartButton();
                 }
               }),
-          verticalSpacing(20),
-          // verticalSpacing(50),
-          // BlocConsumer<SignOutCubit, SignOutState>(
-          //   listener: (context, state) {
-          //     if (state is SignOutError) {
-          //       ScaffoldMessenger.of(context).showSnackBar(
-          //         SnackBar(
-          //           content: Text(state.message),
-          //         ),
-          //       );
-          //     }
-          //   },
-          //   builder: (context, state) {
-          //     if (state is SignOutLoading) {
-          //       return const Center(
-          //         child: CircularProgressIndicator(
-          //           color: AppColors.appPrimary,
-          //         ),
-          //       );
-          //     }
-          //     return AppTextButton(
-          //       buttonText: tr('sign_out'),
-          //       onPressed: () {
-          //         context.read<SignOutCubit>().signOut();
-          //       },
-          //     );
-          //   },
-          // ),
         ],
       ),
     );
