@@ -57,6 +57,10 @@ class _TasksAndStartAndEndWorkState extends State<TasksAndStartAndEndWork> {
                           hintText: isStarted
                               ? tr('enter_today_tasks')
                               : tr('must_start_to_add_tasks'),
+                          hintStyle: isStarted
+                              ? AppTextStyles.regular14
+                              : AppTextStyles.regular14
+                                  .copyWith(color: Colors.red),
                           errorBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(10.r),

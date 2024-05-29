@@ -1,13 +1,14 @@
 import 'dart:developer';
 import 'package:attendance_keeper/core/routers/app_router.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/navigation_bar/navigation_bar_cubit.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_cubit.dart';
+import 'package:attendance_keeper/features/home/presentation/pages/nav_screen.dart';
 import 'package:attendance_keeper/injection_container.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/auto_sign_in/auto_sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_in/sign_in_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_out/sign_out_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/cubits/sign_up/sign_up_cubit.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signin_screen.dart';
-import 'package:attendance_keeper/features/home/presentation/pages/home_screen.dart';
 import 'package:attendance_keeper/features/splash/splash_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,9 @@ class TrueAttendanceKeeperApp extends StatelessWidget {
           BlocProvider<WorkingHoursCubit>(
               create: (context) =>
                   sl<WorkingHoursCubit>()..getTotalWorkingHours()),
+          BlocProvider<NavigationBarCubit>(
+            create: (context) => sl<NavigationBarCubit>(),
+          ),
         ],
         child: MaterialApp(
           theme: ThemeData(
@@ -53,7 +57,7 @@ class TrueAttendanceKeeperApp extends StatelessWidget {
             builder: (context, state) {
               log(state.toString());
               if (state is AutoSignInSuccess) {
-                return const HomeScreen();
+                return const NavBarScreen();
               } else if (state is AutoSignInInitial ||
                   state is AutoSignInLoading) {
                 return const SplashScreen();
