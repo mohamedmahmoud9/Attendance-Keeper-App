@@ -32,19 +32,19 @@ class PersonalDetailsList extends StatelessWidget {
               DataItem(
                 icon: Icons.person,
                 headlineText: tr('name'),
-                subtitleList: state.user!['name'],
+                subtitleList: state.user.name,
               ),
               verticalSpacing(10),
               DataItem(
                 icon: Icons.email,
                 headlineText: tr('email'),
-                subtitleList: state.user!['email'],
+                subtitleList: state.user.email,
               ),
               verticalSpacing(10),
               DataItem(
                 icon: Icons.email,
                 headlineText: tr('job_title'),
-                subtitleList: state.user!['jobTitle'],
+                subtitleList: state.user.jobTitle,
               ),
             ],
           );

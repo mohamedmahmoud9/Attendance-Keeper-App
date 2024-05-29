@@ -41,7 +41,7 @@ class IntroCard extends StatelessWidget {
                     }
                     if (state is UserDataLoaded) {
                       return Text(
-                        '${state.user?['name']} ',
+                        state.user.name,
                         style: AppTextStyles.bold22.copyWith(
                           color: AppColors.white,
                         ),

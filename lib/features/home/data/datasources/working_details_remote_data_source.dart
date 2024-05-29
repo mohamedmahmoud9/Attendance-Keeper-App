@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
+import 'package:attendance_keeper/features/auth/data/models/user_model.dart';
 import 'package:attendance_keeper/features/home/domain/repositories/working_details_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -12,7 +13,7 @@ abstract class WorkingDetailsRemoteDataSource {
   Future<Unit> endWork(EndWorkParams endWorkParams);
   Future<String?> lastSlotId();
   Future<int> getTotalWorkingHours(DateTime dateTime);
-  Future<Map<String, dynamic>?> getUserData();
+ Future<UserModel> getUserData();
 }
 
 class WorkingDetailsRemoteDataSourceImpl
@@ -134,18 +135,23 @@ class WorkingDetailsRemoteDataSourceImpl
   }
 
   @override
-  Future<Map<String, dynamic>?> getUserData() {
-    return firestore
+  Future<UserModel> getUserData() async {
+    final reponse = await firestore
         .collection(FirebasePaths.users)
         .doc(auth.currentUser?.uid)
-        .get()
-        .then((value) {
-      if (value.exists) {
-        return value.data();
-      } else {
-        return null;
-      }
-    });
+        .get();
+    if (reponse.data() != null) {
+      return UserModel.fromSnapshot(reponse.data()!);
+    } else {
+      throw ServerException();
+    }
+    //     .then((value) {
+    //   if (value.exists) {
+    //       return UserModel.fromSnapshot(value) ;
+    //   } else {
+    //     return null;
+    //   }
+    // });
   }
 }
 

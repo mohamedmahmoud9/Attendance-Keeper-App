@@ -10,12 +10,12 @@ sealed class UserDataState extends Equatable {
 final class UserDataInitial extends UserDataState {}
 
 class UserDataLoaded extends UserDataState {
-  final Map<String, dynamic>? user;
+  final UserEntity user;
 
   const UserDataLoaded({required this.user});
 
   @override
-  List<Object> get props => [user!];
+  List<Object> get props => [user];
 }
 
 class UserDataLoading extends UserDataState {}

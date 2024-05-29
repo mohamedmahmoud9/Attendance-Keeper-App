@@ -1,4 +1,5 @@
 import 'package:attendance_keeper/core/usecases/usecase.dart';
+import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
 import 'package:attendance_keeper/features/home/domain/usecases/get_user_data_usecase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';

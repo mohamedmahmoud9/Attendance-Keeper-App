@@ -1,5 +1,4 @@
 import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel extends UserEntity {
   const UserModel(
@@ -10,7 +9,7 @@ class UserModel extends UserEntity {
       required super.lastSlotId,
       required super.lastStartTime});
 
-  factory UserModel.fromSnapshot(DocumentSnapshot documentSnapshot) {
+  factory UserModel.fromSnapshot(Map<String, dynamic> documentSnapshot) {
     return UserModel(
       name: documentSnapshot['name'],
       jobTitle: documentSnapshot['jobTitle'],

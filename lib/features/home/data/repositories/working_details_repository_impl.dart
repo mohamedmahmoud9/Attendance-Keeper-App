@@ -1,6 +1,7 @@
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/errors/failure.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
+import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
 import 'package:attendance_keeper/features/home/data/datasources/working_details_remote_data_source.dart';
 import 'package:attendance_keeper/features/home/domain/repositories/working_details_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -49,7 +50,7 @@ class WorkingDetailsRepositoryImpl implements WorkingDetailsRepository {
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>?>> getUserData(
+  Future<Either<Failure, UserEntity>> getUserData(
       NoParams noParams) async {
     try {
       final userData = await workingDetailsRemoteDataSource.getUserData();
