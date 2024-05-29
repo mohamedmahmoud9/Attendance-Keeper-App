@@ -35,7 +35,7 @@ class _TasksAndStartAndEndWorkState extends State<TasksAndStartAndEndWork> {
                 Icon(Icons.task_alt_rounded,
                     color: AppColors.appPrimary, size: 20.sp),
                 horizontalSpacing(5),
-                Text(tr('مهام اليوم'), style: AppTextStyles.bold14),
+                Text(tr('today_assignments'), style: AppTextStyles.bold14),
               ],
             ),
             verticalSpacing(7),

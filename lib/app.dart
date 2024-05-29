@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:attendance_keeper/core/routers/app_router.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/navigation_bar/navigation_bar_cubit.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/user_data/user_data_cubit.dart';
 import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_cubit.dart';
 import 'package:attendance_keeper/features/home/presentation/pages/nav_screen.dart';
 import 'package:attendance_keeper/injection_container.dart';
@@ -45,6 +46,9 @@ class TrueAttendanceKeeperApp extends StatelessWidget {
                   sl<WorkingHoursCubit>()..getTotalWorkingHours()),
           BlocProvider<NavigationBarCubit>(
             create: (context) => sl<NavigationBarCubit>(),
+          ),
+          BlocProvider<UserDataCubit>(
+            create: (context) => sl<UserDataCubit>()..getUserData(),
           ),
         ],
         child: MaterialApp(

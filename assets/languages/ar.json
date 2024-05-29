@@ -51,5 +51,7 @@
     "hours" : "ساعات",
     "must_start_to_add_tasks" : "يجب عليك بدء الدوام لاضافة مهام",
     "added_tasks" : "تمت اضافة المهام و انهاء الدوام بنجاح",
-    "end_time_successfully" : "تم انهاء الدوام بنجاح"
+    "end_time_successfully" : "تم انهاء الدوام بنجاح",
+    "my_personal_account" : "ملفي الشخصي"  
+    ,"sign_out_success" : "تم تسجيل الخروج بنجاح"
 }

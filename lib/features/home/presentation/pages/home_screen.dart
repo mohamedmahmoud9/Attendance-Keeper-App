@@ -15,8 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    // return BlocBuilder<SignOutCubit, SignOutState>(
-      // builder: (context, state) {
         return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -45,8 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 const TasksAndStartAndEndWork(),
               ],
             ),
-        // );
-      // },
     );
   }
 }
