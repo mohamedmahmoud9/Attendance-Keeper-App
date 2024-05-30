@@ -1,3 +1,4 @@
+import 'package:attendance_keeper/features/analytics/analytics_injection.dart';
 import 'package:attendance_keeper/features/auth/auth_container.dart';
 import 'package:attendance_keeper/features/home/home_injection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ Future<void> init() async {
   // Containers
   initAuth();
   initHome();
+  initAnalytics();
 
   // Externals
   final auth = FirebaseAuth.instance;

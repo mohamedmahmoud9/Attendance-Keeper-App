@@ -38,9 +38,10 @@ class DataItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(headlineText,
-                      style: AppTextStyles.bold14
+                      style: AppTextStyles.bold12
                           .copyWith(color: AppColors.black)),
-                  Text(subtitleList, style: AppTextStyles.semiBold14),
+                  verticalSpacing(5),
+                  Text(subtitleList, style: AppTextStyles.semiBold12),
                 ],
               ),
             ],

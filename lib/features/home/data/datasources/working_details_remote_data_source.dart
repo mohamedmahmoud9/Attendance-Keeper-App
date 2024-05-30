@@ -63,6 +63,7 @@ class WorkingDetailsRemoteDataSourceImpl
       if (lastSlotIdCheck == null) {
         throw NotWorkingException();
       }
+      
       final dateTime = DateTime.now();
       firestore
           .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))

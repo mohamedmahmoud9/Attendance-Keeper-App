@@ -25,19 +25,21 @@ class ProfileScreen extends StatelessWidget {
               color: AppColors.appPrimary,
               borderRadius: BorderRadius.circular(30.r),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(110.r),
-                  child: Image.asset(AppAssets.pro, width: 110.w),
-                ),
-                verticalSpacing(10),
-                Text(tr('my_personal_account'),
-                    style:
-                        AppTextStyles.bold18.copyWith(color: AppColors.white)),
-              ],
+            child: SafeArea(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(110.r),
+                    child: Image.asset(AppAssets.pro, width: 110.w),
+                  ),
+                  verticalSpacing(10),
+                  Text(tr('my_personal_account'),
+                      style: AppTextStyles.bold18
+                          .copyWith(color: AppColors.white)),
+                ],
+              ),
             ),
           ),
           const PersonalDetailsList(),
