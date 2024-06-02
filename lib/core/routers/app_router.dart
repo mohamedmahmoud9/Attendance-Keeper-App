@@ -1,4 +1,6 @@
 import 'package:attendance_keeper/core/routers/routes.dart';
+import 'package:attendance_keeper/features/analytics/domain/entities/working_day.dart';
+import 'package:attendance_keeper/features/analytics/presentation/pages/all_slots_in_day.dart';
 import 'package:attendance_keeper/features/analytics/presentation/pages/analytics_screen.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signin_screen.dart';
 import 'package:attendance_keeper/features/auth/presentation/pages/signup_screen.dart';
@@ -9,6 +11,8 @@ import 'package:flutter/material.dart';
 
 class AppRouter {
   Route generateRoute(RouteSettings settings) {
+    final arguments = settings.arguments;
+
     switch (settings.name) {
       // Splash Screen
       case Routes.splashScreen:
@@ -44,6 +48,14 @@ class AppRouter {
       case Routes.profileScreen:
         return MaterialPageRoute(
           builder: (context) => const ProfileScreen(),
+        );
+
+      // All Slots In Day
+      case Routes.allSlotsInDay:
+        return MaterialPageRoute(
+          builder: (context) => AllSlotsInDay(
+            workingDay: arguments as WorkingDay,
+          ),
         );
 
       // Default

@@ -8,7 +8,6 @@ import 'package:attendance_keeper/injection_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../domain/usecases/get_last_7_days.dart';
 
 class AnalyticsScreen extends StatelessWidget {
@@ -73,44 +72,6 @@ class AnalyticsScreen extends StatelessWidget {
                 },
               ),
             ),
-            // BlocProvider<Last7DaysCubit>(
-            //   create: (context) => sl<Last7DaysCubit>()..getLast7Days(),
-            //   child: BlocBuilder<Last7DaysCubit, Last7DaysState>(
-            //     builder: (context, state) {
-            //       if (state is Last7DaysLoading) {
-            //         return const Center(
-            //           child: CircularProgressIndicator(
-            //             color: AppColors.appPrimary,
-            //           ),
-            //         );
-            //       }
-            //       if (state is Last7DaysError) {
-            //         return showErorrToast(state.message);
-            //       }
-            //       if (state is Last7DaysLoaded) {
-            //         int listLength;
-            //         if (state.last7Days == null) {
-            //           listLength = 1;
-            //         } else if (state.last7Days!.length < 7) {
-            //           listLength = state.last7Days!.length;
-            //         } else {
-            //           listLength = 7;
-            //         }
-            // return ListView.separated(
-            //   itemCount: listLength,
-            //   shrinkWrap: true,
-            //   separatorBuilder: (context, index) {
-            //     return verticalSpacing(7);
-            //   },
-            //   itemBuilder: (context, index) {
-            //     return DateCard(date: state.last7Days?[index]);
-            //   },
-            // );
-            //       }
-            //       return const SizedBox.shrink();
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),

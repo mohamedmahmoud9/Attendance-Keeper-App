@@ -54,8 +54,15 @@
     "end_time_successfully" : "تم انهاء الدوام بنجاح",
     "my_personal_account" : "ملفي الشخصي"  
     ,"sign_out_success" : "تم تسجيل الخروج بنجاح",
-    "total_hours" : "اجمالي عدد الساعات",
+    "total_hours" : "عدد الساعات",
     "day" : "اليوم",
     "working_details" : "تفاصيل العمل",
-    "you_didnt_work_last_7_days" : "انت لم تعمل خلال 7 ايام الماضية"
+    "you_didnt_work_last_7_days" : "انت لم تعمل خلال 7 ايام الماضية",
+    "day_details" : "تفاصيل اليوم",
+    "total_slots" : "عدد الفترات",
+    "no_slots" : "لا توجد فترات",
+    "from" : "من",
+    "to" : "الي",
+    "until_now" : "حتى الان",
+    "slot_tasks" : "مهام الفترة"
 }

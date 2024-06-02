@@ -6,4 +6,5 @@ static const String homeScreen = '/homeScreen';
 static const String signOutScreen = '/signOutScreen';
 static const String analyticsScreen = '/analyticsScreen';
 static const String profileScreen = '/profileScreen';
+static const String allSlotsInDay = '/allSlotsInDay';
 }

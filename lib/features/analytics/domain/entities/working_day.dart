@@ -18,7 +18,7 @@ class WorkingDay {
   }
 
   List<String> getAllTasks() => daySlots
-      .where((slot) => slot.tasks != null)
+      .where((slot) => slot.tasks != null && slot.tasks!.isNotEmpty)
       .map((slot) => slot.tasks!)
       .toList();
 }
