@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextField extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? labelText;
   final Widget? prefixIcon;
@@ -12,7 +12,7 @@ class AppTextField extends StatelessWidget {
 
   const AppTextField(
       {super.key,
-      required this.controller,
+      this.controller,
       this.keyboardType,
       this.labelText,
       this.prefixIcon,

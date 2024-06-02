@@ -1,8 +1,10 @@
+import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/errors/failure.dart';
+import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/features/auth/data/datasources/firebase_remote_data_source.dart';
-import 'package:attendance_keeper/features/auth/domain/entities/user_entity.dart';
 import 'package:attendance_keeper/features/auth/domain/repositories/firebase_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseRepositoryImpl implements FirebaseRepository {
   final FirebaseRemoteDataSource firebaseRemoteDataSource;
@@ -10,64 +12,42 @@ class FirebaseRepositoryImpl implements FirebaseRepository {
   FirebaseRepositoryImpl({required this.firebaseRemoteDataSource});
 
   @override
-  Future<Either<Failure, bool>> isSignedIn() async {
+  Future<Either<Failure, UserCredential>> signin(
+      SignInParams signInParams) async {
     try {
-      final signedIn = await firebaseRemoteDataSource.isSignedIn();
-      return right(signedIn);
-    } catch (e) {
-      return left(ServerFailure());
+      return right(await firebaseRemoteDataSource.signin(signInParams));
+    } on FirebaseAuthException catch (error) {
+      return left(FirbaseAuthFailureHelper.getFailure(error.code));
     }
   }
 
   @override
-  Future<Either<Failure, Unit>> signin(SignInParams signInParams) async {
-    try {
-      await firebaseRemoteDataSource.signin(signInParams);
-      return right(unit);
-    } catch (e) {
-      return left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> signup(SignUpParams signUpParams) async {
-    try {
-      await firebaseRemoteDataSource.signup(signUpParams);
-      return right(unit);
-    } catch (e) {
-      return left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> signout() async {
-    try {
-      await firebaseRemoteDataSource.signout();
-      return right(unit);
-    } catch (e) {
-      return left(ServerFailure());
-    }
-  }
-
-  @override
-  Future<Either<Failure, UserEntity>> getCreateCurrentUser(
+  Future<Either<Failure, UserCredential>> signup(
       SignUpParams signUpParams) async {
     try {
-      final userEntity =
-          await firebaseRemoteDataSource.getCreateCurrentUser(signUpParams);
-      return right(userEntity);
-    } catch (e) {
-      return left(ServerFailure());
+      return right(await firebaseRemoteDataSource.signup(signUpParams));
+    } on FirebaseAuthException catch (error) {
+      return left(FirbaseAuthFailureHelper.getFailure(error.code));
     }
   }
 
   @override
-  Future<Either<Failure, String?>> getCurrentUserId() async {
+  Future<Either<Failure, User>> autoSignin(NoParams params) async{
     try {
-      final userId = await firebaseRemoteDataSource.getCurrentUserId();
-      return right(userId);
-    } catch (e) {
-      return left(ServerFailure());
+      return right(await firebaseRemoteDataSource.autoSignin(params));
+    } on FirebaseAuthException catch (error) {
+      return left(FirbaseAuthFailureHelper.getFailure(error.code));
+    } on AutoSignInException {
+      return left(AutoSignInFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> signout(NoParams params) async {
+    try {
+      return right(await firebaseRemoteDataSource.signout(params));
+    } on FirebaseAuthException catch (error) {
+      return left(FirbaseAuthFailureHelper.getFailure(error.code));
     }
   }
 }

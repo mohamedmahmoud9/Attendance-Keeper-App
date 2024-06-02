@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  cuberto_bottom_bar:
+    dependency: "direct main"
+    description:
+      name: cuberto_bottom_bar
+      sha256: "27fc5dd82ebf969b182bcf075ad409bd8c23d0d99d9a176822693e889cfb2afd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -549,6 +557,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  responsive_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: responsive_navigation_bar
+      sha256: d1ee45efd95b5f55b3b26308762d40ce2ddfc66b359d8308e85aeb71073767e9
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.4"
   shared_preferences:
     dependency: "direct main"
     description:
