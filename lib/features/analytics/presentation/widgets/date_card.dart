@@ -1,13 +1,14 @@
 import 'package:attendance_keeper/core/themes/app_colors.dart';
-import 'package:attendance_keeper/core/themes/app_text_styles.dart';
+import 'package:attendance_keeper/features/analytics/domain/entities/working_day.dart';
+import 'package:attendance_keeper/features/home/presentation/cubit/working_hours/working_hours_counter.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DateCard extends StatelessWidget {
-  const DateCard({super.key, required this.date});
+  const DateCard({super.key, required this.workingDay});
 
-  final String? date;
+  final WorkingDay workingDay;
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +22,31 @@ class DateCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Wrap(children: [
-              Text(date ?? tr('you_didnt_work_last_7_days'),
-                  style: AppTextStyles.semiBold14)
-            ]),
-            const Spacer(),
-            date == null
-                ? const SizedBox()
-                : Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    size: 15.r,
-                    color: AppColors.black,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    DateFormat.yMMMMEEEEd('ar').format(workingDay.dateTime),
                   ),
+                  Text(WorkingHoursCounter.hoursAndMinutesAndSeconds(
+                          workingDay.totalWorkingHours)
+                      .toString()),
+                  ...workingDay.getAllTasks().map((e) => Text(e))
+                  // Text(slot.start.toDate().toString(),
+                  //     style: AppTextStyles.semiBold14),
+                  // if (slot.end != null)
+                  //   Text(slot.end!.toDate().toString(),
+                  //       style: AppTextStyles.semiBold14),
+                  // if (slot.tasks != null) Text(slot.tasks!)
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 15.r,
+              color: AppColors.black,
+            ),
           ],
         ),
       ),

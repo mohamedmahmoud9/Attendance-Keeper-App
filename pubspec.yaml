@@ -1,11 +1,11 @@
 name: attendance_keeper
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.4 <4.0.0'
+  sdk: ">=3.3.4 <4.0.0"
 
 dependencies:
   flutter:
@@ -20,8 +20,9 @@ dependencies:
   google_sign_in: ^6.2.1
   flutter_bloc: ^8.1.5
   bloc: ^8.1.4
-  intl: ^0.18.1
+  # intl: ^0.18.1
   get_it: ^7.7.0
+  collection: ^1.18.0
   equatable: ^2.0.5
   dartz: ^0.10.1
   easy_localization: ^3.0.7
@@ -35,7 +36,6 @@ dependencies:
   cuberto_bottom_bar: ^3.0.0
   responsive_navigation_bar: ^4.0.4
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -43,7 +43,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
-
   uses-material-design: true
   assets:
     - assets/

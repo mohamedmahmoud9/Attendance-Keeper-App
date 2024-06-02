@@ -52,4 +52,9 @@ class Time {
   final int seconds;
 
   Time({required this.hours, required this.minutes, required this.seconds});
+
+  @override
+  String toString() {
+    return '${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+  }
 }
