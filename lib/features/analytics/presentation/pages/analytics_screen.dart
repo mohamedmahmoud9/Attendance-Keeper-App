@@ -1,14 +1,15 @@
 import 'package:attendance_keeper/core/themes/app_colors.dart';
 import 'package:attendance_keeper/core/themes/app_text_styles.dart';
+import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
+import 'package:attendance_keeper/features/analytics/domain/entities/working_day.dart';
 import 'package:attendance_keeper/features/analytics/presentation/widgets/date_card.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:attendance_keeper/core/widgets/app_toast.dart';
-import 'package:attendance_keeper/features/analytics/presentation/cubit/last_7_days/last_7_days_cubit.dart';
 import 'package:attendance_keeper/injection_container.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../domain/usecases/get_last_7_days.dart';
 
 class AnalyticsScreen extends StatelessWidget {
   const AnalyticsScreen({super.key});
@@ -35,37 +36,36 @@ class AnalyticsScreen extends StatelessWidget {
               ],
             ),
             verticalSpacing(15),
-            BlocProvider<Last7DaysCubit>(
-              create: (context) => sl<Last7DaysCubit>()..getLast7Days(),
-              child: BlocBuilder<Last7DaysCubit, Last7DaysState>(
-                builder: (context, state) {
-                  if (state is Last7DaysLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.appPrimary,
-                      ),
+            Expanded(
+              child: StreamBuilder<List<WorkingDay>>(
+                stream: sl<GetLast7DaysUseCase>().call(NoParams()),
+                initialData: const [],
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<WorkingDay>> snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(tr('error')),
                     );
                   }
-                  if (state is Last7DaysError) {
-                    return showErorrToast(state.message);
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    );
                   }
-                  if (state is Last7DaysLoaded) {
-                    int listLength;
-                    if (state.last7Days == null) {
-                      listLength = 1;
-                    } else if (state.last7Days!.length < 7) {
-                      listLength = state.last7Days!.length;
-                    } else {
-                      listLength = 7;
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.isEmpty) {
+                      return Center(
+                        child: Text(tr('you_didnt_work_last_7_days')),
+                      );
                     }
                     return ListView.separated(
-                      itemCount: listLength,
+                      itemCount: snapshot.data!.length,
                       shrinkWrap: true,
                       separatorBuilder: (context, index) {
                         return verticalSpacing(7);
                       },
                       itemBuilder: (context, index) {
-                        return DateCard(date: state.last7Days?[index]);
+                        return DateCard(workingDay: snapshot.data![index]);
                       },
                     );
                   }
@@ -73,6 +73,44 @@ class AnalyticsScreen extends StatelessWidget {
                 },
               ),
             ),
+            // BlocProvider<Last7DaysCubit>(
+            //   create: (context) => sl<Last7DaysCubit>()..getLast7Days(),
+            //   child: BlocBuilder<Last7DaysCubit, Last7DaysState>(
+            //     builder: (context, state) {
+            //       if (state is Last7DaysLoading) {
+            //         return const Center(
+            //           child: CircularProgressIndicator(
+            //             color: AppColors.appPrimary,
+            //           ),
+            //         );
+            //       }
+            //       if (state is Last7DaysError) {
+            //         return showErorrToast(state.message);
+            //       }
+            //       if (state is Last7DaysLoaded) {
+            //         int listLength;
+            //         if (state.last7Days == null) {
+            //           listLength = 1;
+            //         } else if (state.last7Days!.length < 7) {
+            //           listLength = state.last7Days!.length;
+            //         } else {
+            //           listLength = 7;
+            //         }
+            // return ListView.separated(
+            //   itemCount: listLength,
+            //   shrinkWrap: true,
+            //   separatorBuilder: (context, index) {
+            //     return verticalSpacing(7);
+            //   },
+            //   itemBuilder: (context, index) {
+            //     return DateCard(date: state.last7Days?[index]);
+            //   },
+            // );
+            //       }
+            //       return const SizedBox.shrink();
+            //     },
+            //   ),
+            // ),
           ],
         ),
       ),

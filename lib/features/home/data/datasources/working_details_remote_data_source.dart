@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
@@ -13,7 +14,7 @@ abstract class WorkingDetailsRemoteDataSource {
   Future<Unit> endWork(EndWorkParams endWorkParams);
   Future<String?> lastSlotId();
   Future<int> getTotalWorkingHours(DateTime dateTime);
- Future<UserModel> getUserData();
+  Future<UserModel> getUserData();
 }
 
 class WorkingDetailsRemoteDataSourceImpl
@@ -63,7 +64,7 @@ class WorkingDetailsRemoteDataSourceImpl
       if (lastSlotIdCheck == null) {
         throw NotWorkingException();
       }
-      
+
       final dateTime = DateTime.now();
       firestore
           .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
@@ -161,4 +162,8 @@ class Slot {
   final Timestamp? end;
   final String? tasks;
   Slot({required this.start, required this.end, required this.tasks});
+  factory Slot.formJson(Map<String, dynamic> json) {
+    return Slot(
+        start: json['start_time'], end: json['end_time'], tasks: json['tasks']);
+  }
 }

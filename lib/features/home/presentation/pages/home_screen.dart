@@ -15,34 +15,34 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-        return SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 250.h,
-                      margin: EdgeInsets.only(bottom: 100.h),
-                      decoration: BoxDecoration(
-                        color: AppColors.appPrimary,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                    ),
-                    const IntroCard(),
-                    Positioned(
-                      top: 150,
-                      right: 25.w,
-                      left: 25.w,
-                      bottom: 0,
-                      child: const HomeCard(),
-                    ),
-                  ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 250.sp,
+                margin: EdgeInsets.only(bottom: 100.h),
+                decoration: BoxDecoration(
+                  color: AppColors.appPrimary,
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
-                const TasksAndStartAndEndWork(),
-              ],
-            ),
+              ),
+              const IntroCard(),
+              Positioned(
+                top: 150,
+                right: 25.w,
+                left: 25.w,
+                bottom: 0,
+                child: const HomeCard(),
+              ),
+            ],
+          ),
+          const TasksAndStartAndEndWork(),
+        ],
+      ),
     );
   }
 }
