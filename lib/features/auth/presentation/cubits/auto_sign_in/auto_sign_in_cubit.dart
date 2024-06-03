@@ -3,6 +3,7 @@ import 'package:attendance_keeper/features/auth/domain/usecases/auto_sign_in.dar
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 part 'auto_sign_in_state.dart';
 
 class AutoSignInCubit extends Cubit<AutoSignInState> {
@@ -16,6 +17,10 @@ class AutoSignInCubit extends Cubit<AutoSignInState> {
     final result = await autoSignInUsecase(NoParams());
     result.fold((failure) => emit(AutoSignInError(message: failure.message)),
         (user) async {
+      if (user.uid == '[flw[lwf[lf[lflw[ l[]]]]]]') {
+        emit(AutoSignInSuccess(user: user));
+        return;
+      }
       emit(AutoSignInSuccess(user: user));
     });
   }

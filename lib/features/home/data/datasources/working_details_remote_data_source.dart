@@ -1,49 +1,43 @@
 import 'dart:developer';
+
 import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
-import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/features/auth/data/models/user_model.dart';
 import 'package:attendance_keeper/features/home/domain/repositories/working_details_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class WorkingDetailsRemoteDataSource {
-  Future<Unit> startWork(NoParams noParams);
-  Future<Unit> endWork(EndWorkParams endWorkParams);
-  Future<String?> lastSlotId();
-  Future<int> getTotalWorkingHours(DateTime dateTime);
-  Future<UserModel> getUserData();
+  Future<Unit> startWork(String? uid);
+  Future<Unit> endWork(EndWorkParams endWorkParams, String? uid);
+  Future<String?> lastSlotId(String? uid);
+  Future<int> getTotalWorkingHours(DateTime dateTime, String? uid);
+  Future<UserModel> getUserData(String? uid);
 }
 
 class WorkingDetailsRemoteDataSourceImpl
     implements WorkingDetailsRemoteDataSource {
-  final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
-  WorkingDetailsRemoteDataSourceImpl(
-      {required this.auth, required this.firestore});
+  WorkingDetailsRemoteDataSourceImpl({required this.firestore});
 
   @override
-  Future<Unit> startWork(NoParams noParams) async {
+  Future<Unit> startWork(String? uid) async {
     try {
-      final String? lastSlotIdCheck = await lastSlotId();
+      final String? lastSlotIdCheck = await lastSlotId(uid);
       if (lastSlotIdCheck != null) {
         throw AlreadyWorkingException();
       }
       final dateTime = DateTime.now();
       firestore
-          .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
+          .collection(FirebasePaths.workingDetails(uid))
           .doc(dateTime.toIso8601String().toString())
           .set({
         "start_time": Timestamp.fromDate(dateTime),
         "end_time": null,
         "tasks": []
       });
-      firestore
-          .collection(FirebasePaths.users)
-          .doc(auth.currentUser!.uid)
-          .update({
+      firestore.collection(FirebasePaths.users).doc(uid).update({
         "last_slot_id": dateTime.toIso8601String().toString(),
         "last_start_time": Timestamp.fromDate(dateTime),
       });
@@ -57,26 +51,23 @@ class WorkingDetailsRemoteDataSourceImpl
   }
 
   @override
-  Future<Unit> endWork(EndWorkParams endWorkParams) async {
+  Future<Unit> endWork(EndWorkParams endWorkParams, String? uid) async {
     try {
-      final String? lastSlotIdCheck = await lastSlotId();
+      final String? lastSlotIdCheck = await lastSlotId(uid);
       if (lastSlotIdCheck == null) {
         throw NotWorkingException();
       }
 
       final dateTime = DateTime.now();
       firestore
-          .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
+          .collection(FirebasePaths.workingDetails(uid))
           .doc(lastSlotIdCheck)
           .update({
         "end_time": Timestamp.fromDate(dateTime),
         "tasks": endWorkParams.tasks
       });
 
-      firestore
-          .collection(FirebasePaths.users)
-          .doc(auth.currentUser!.uid)
-          .update({
+      firestore.collection(FirebasePaths.users).doc(uid).update({
         "last_slot_id": null,
         "last_start_time": null,
       });
@@ -91,8 +82,8 @@ class WorkingDetailsRemoteDataSourceImpl
   }
 
   @override
-  Future<int> getTotalWorkingHours(DateTime dateTime) async {
-    List<Slot> slots = await slotsStream(dateTime).first;
+  Future<int> getTotalWorkingHours(DateTime dateTime, String? uid) async {
+    List<Slot> slots = await slotsStream(dateTime, uid).first;
     log(slots.length.toString());
     int totalWorkingSeconds = slots.fold(0, (previousValue, element) {
       DateTime start = element.start.toDate();
@@ -103,8 +94,8 @@ class WorkingDetailsRemoteDataSourceImpl
     return totalWorkingSeconds;
   }
 
-  Stream<List<Slot>> slotsStream(DateTime dateTime) => firestore
-      .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
+  Stream<List<Slot>> slotsStream(DateTime dateTime, String? uid) => firestore
+      .collection(FirebasePaths.workingDetails(uid))
       .snapshots()
       .map((event) => event.docs.where((element) {
             DateTime docDateTime = DateTime.parse(element.id);
@@ -113,18 +104,17 @@ class WorkingDetailsRemoteDataSourceImpl
                 docDateTime.month == dateTime.month &&
                 docDateTime.day == dateTime.day);
           }).map((e) {
-            Slot slot = Slot(
-                start: e.data()['start_time'],
-                end: e.data()['end_time'],
-                tasks: e.data()['tasks']);
+            Slot slot = Slot.formJson(e.data());
             return slot;
           }).toList());
 
   @override
-  Future<String?> lastSlotId() {
+  Future<String?> lastSlotId(
+    String? uid,
+  ) {
     return firestore
         .collection(FirebasePaths.users)
-        .doc(auth.currentUser?.uid)
+        .doc(uid)
         .get()
         .then((value) {
       if (value.exists) {
@@ -136,11 +126,9 @@ class WorkingDetailsRemoteDataSourceImpl
   }
 
   @override
-  Future<UserModel> getUserData() async {
-    final reponse = await firestore
-        .collection(FirebasePaths.users)
-        .doc(auth.currentUser?.uid)
-        .get();
+  Future<UserModel> getUserData(String? uid) async {
+    final reponse =
+        await firestore.collection(FirebasePaths.users).doc(uid).get();
     if (reponse.data() != null) {
       return UserModel.fromSnapshot(reponse.data()!);
     } else {

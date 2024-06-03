@@ -3,12 +3,13 @@ import 'package:attendance_keeper/features/analytics/domain/repositories/analyti
 
 import '../entities/working_day.dart';
 
-class GetLast7DaysUseCase extends StreamUsecase<List<WorkingDay>, NoParams> {
+class GetAllWorkDaysUseCase
+    extends StreamUsecase<List<WorkingDay>, AllWorkDaysParams> {
   final AnalyticsRepository analyticsRepository;
 
-  GetLast7DaysUseCase({required this.analyticsRepository});
+  GetAllWorkDaysUseCase({required this.analyticsRepository});
 
   @override
-  Stream<List<WorkingDay>> call(NoParams params) =>
-      analyticsRepository.getLast7DaysWork(NoParams());
+  Stream<List<WorkingDay>> call(AllWorkDaysParams params) =>
+      analyticsRepository.getAllWorkDays(params);
 }

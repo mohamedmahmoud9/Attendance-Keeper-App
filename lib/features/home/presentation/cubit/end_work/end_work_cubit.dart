@@ -7,6 +7,7 @@ import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+
 part 'end_work_state.dart';
 
 class EndWorkCubit extends Cubit<EndWorkState> {
@@ -16,11 +17,24 @@ class EndWorkCubit extends Cubit<EndWorkState> {
   TextEditingController tasksController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  List <String> tasks = [];
-  void addTask(String task) {
-    tasks.add(task);
+  List<String> tasks = [];
+  void addTask() {
+    if (tasksController.text.isEmpty) {
+      return;
+    }
+    emit(EndWorkLoading());
+    tasks.add(tasksController.text);
+    clearController();
+    showSucessToast('Task Added');
+    emit(EndWorkInitial());
   }
-  
+
+  void removeTask(int index) {
+    emit(EndWorkLoading());
+    tasks.removeAt(index);
+    showSucessToast('Task Removed');
+    emit(EndWorkSuccess());
+  }
 
   void clearController() {
     tasksController.clear();
@@ -32,11 +46,14 @@ class EndWorkCubit extends Cubit<EndWorkState> {
 
   Future<void> endWork() async {
     emit(EndWorkLoading());
-    final result =
-        await endWorkUseCase(EndWorkParams(tasks: tasks));
+    if (tasksController.text.isNotEmpty) {
+      addTask();
+    }
+    final result = await endWorkUseCase(EndWorkParams(tasks: tasks));
     result.fold((failure) {
       emit(EndWorkFailure(message: failure.message));
     }, (r) {
+      tasks.clear();
       emit(EndWorkSuccess());
       if (tasksController.text.isNotEmpty) {
         showSucessToast(tr('added_tasks'));
@@ -44,7 +61,6 @@ class EndWorkCubit extends Cubit<EndWorkState> {
         showSucessToast(tr('end_time_successfully'));
       }
       sl<WorkingHoursCubit>().endWork();
-      clearController();
     });
   }
 }

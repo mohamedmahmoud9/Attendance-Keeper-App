@@ -4,25 +4,26 @@ import 'package:attendance_keeper/features/home/data/datasources/working_details
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 abstract class AnalyticsRemoteDataSource {
-  Stream<List<WorkingDay>> getLast7DaysWork();
+  Stream<List<WorkingDay>> getAllWorkDays(String? uid);
 }
 
 class AnalyticsRemoteDataSourceImpl implements AnalyticsRemoteDataSource {
-  final FirebaseAuth auth;
+  // final FirebaseAuth auth;
   final FirebaseFirestore firestore;
 
   AnalyticsRemoteDataSourceImpl({
     required this.firestore,
-    required this.auth,
+    // required this.auth,
   });
 
   @override
-  Stream<List<WorkingDay>> getLast7DaysWork() {
+  Stream<List<WorkingDay>> getAllWorkDays(
+    String? uid,
+  ) {
     return firestore
-        .collection(FirebasePaths.workingDetails(auth.currentUser?.uid))
+        .collection(FirebasePaths.workingDetails(uid))
         .orderBy('start_time', descending: true)
         .snapshots()
         .map((data) => data.docs
@@ -61,7 +62,6 @@ class AnalyticsRemoteDataSourceImpl implements AnalyticsRemoteDataSource {
     //     return null;
     //   }
     // });
-    
   }
 
   String convertDateFormat(String dateString) {

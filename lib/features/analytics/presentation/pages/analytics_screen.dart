@@ -1,17 +1,19 @@
 import 'package:attendance_keeper/core/themes/app_colors.dart';
 import 'package:attendance_keeper/core/themes/app_text_styles.dart';
-import 'package:attendance_keeper/core/usecases/usecase.dart';
 import 'package:attendance_keeper/core/widgets/app_spacer.dart';
 import 'package:attendance_keeper/features/analytics/domain/entities/working_day.dart';
+import 'package:attendance_keeper/features/analytics/domain/repositories/analytics_repository.dart';
 import 'package:attendance_keeper/features/analytics/presentation/widgets/date_card.dart';
 import 'package:attendance_keeper/injection_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../domain/usecases/get_last_7_days.dart';
+
+import '../../domain/usecases/get_all_work_days.dart';
 
 class AnalyticsScreen extends StatelessWidget {
-  const AnalyticsScreen({super.key});
+  final String? uid;
+  const AnalyticsScreen({super.key, this.uid});
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +39,14 @@ class AnalyticsScreen extends StatelessWidget {
             verticalSpacing(15),
             Expanded(
               child: StreamBuilder<List<WorkingDay>>(
-                stream: sl<GetLast7DaysUseCase>().call(NoParams()),
+                stream: sl<GetAllWorkDaysUseCase>().call(
+                  uid == null
+                      ? AllWorkDaysUserParams()
+                      : AllWorkDaysHRParams(uid: uid!),
+                ),
                 initialData: const [],
                 builder: (BuildContext context,
                     AsyncSnapshot<List<WorkingDay>> snapshot) {
-                      
                   if (snapshot.hasError) {
                     return Center(
                       child: Text(tr('error')),

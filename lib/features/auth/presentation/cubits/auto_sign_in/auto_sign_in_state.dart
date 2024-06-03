@@ -16,8 +16,12 @@ final class AutoSignInSuccess extends AutoSignInState {
   const AutoSignInSuccess({required this.user});
 }
 
+final class AutoSignInHRSuccess extends AutoSignInState {
+  final User user;
+  const AutoSignInHRSuccess({required this.user});
+}
+
 final class AutoSignInError extends AutoSignInState {
   final String message;
   const AutoSignInError({required this.message});
 }
-
