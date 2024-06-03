@@ -7,16 +7,13 @@ abstract class WorkingDetailsRepository {
   Future<Either<Failure, Unit>> startWork(NoParams noParams);
   Future<Either<Failure, Unit>> endWork(EndWorkParams endWorkParams);
   Future<Either<Failure, (int, bool)>> getTotalWorkingHours(DateTime dateTime);
-  Future<Either<Failure,UserEntity>> getUserData(NoParams noParams);
+  Future<Either<Failure, UserEntity>> getUserData(NoParams noParams);
 }
 
 class EndWorkParams {
-  final String tasks;
+  final List<String> tasks;
 
-
-  const EndWorkParams({
-    required this.tasks,
-  });
+  const EndWorkParams({required this.tasks});
 
   Map<String, dynamic> toDocument() {
     return {

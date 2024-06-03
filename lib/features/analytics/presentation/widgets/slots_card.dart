@@ -9,10 +9,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class SlotsCard extends StatelessWidget {
   final Timestamp start;
   final Timestamp? end;
-  final String? tasks;
+  final List<String> tasks;
 
   const SlotsCard(
-      {super.key, required this.start, required this.end, this.tasks});
+      {super.key, required this.start, required this.end, required this.tasks});
 
   @override
   Widget build(BuildContext context) {
@@ -62,23 +62,19 @@ class SlotsCard extends StatelessWidget {
                   ],
                 ),
                 verticalSpacing(5),
-                if (tasks != '' && tasks != null)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        '${tr('slot_tasks')} :',
-                        style: AppTextStyles.semiBold14
-                            .copyWith(color: AppColors.appPrimary),
-                      ),
-                      Text(
-                        '- ${tasks!}',
-                        style: AppTextStyles.semiBold12.copyWith(
-                          color: AppColors.greyDark,
-                        ),
-                      ),
-                    ],
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${tr('slot_tasks')} :',
+                      style: AppTextStyles.semiBold14
+                          .copyWith(color: AppColors.appPrimary),
+                    ),
+                    ...tasks.map(
+                      (e) => Text(e),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

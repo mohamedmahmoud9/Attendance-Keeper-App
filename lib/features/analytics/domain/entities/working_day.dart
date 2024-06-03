@@ -18,7 +18,5 @@ class WorkingDay {
   }
 
   List<String> getAllTasks() => daySlots
-      .where((slot) => slot.tasks != null && slot.tasks!.isNotEmpty)
-      .map((slot) => slot.tasks!)
-      .toList();
+      .fold([], (previousValue, element) => previousValue + element.tasks);
 }

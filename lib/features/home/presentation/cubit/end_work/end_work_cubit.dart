@@ -16,6 +16,12 @@ class EndWorkCubit extends Cubit<EndWorkState> {
   TextEditingController tasksController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  List <String> tasks = [];
+  void addTask(String task) {
+    tasks.add(task);
+  }
+  
+
   void clearController() {
     tasksController.clear();
   }
@@ -27,7 +33,7 @@ class EndWorkCubit extends Cubit<EndWorkState> {
   Future<void> endWork() async {
     emit(EndWorkLoading());
     final result =
-        await endWorkUseCase(EndWorkParams(tasks: tasksController.text));
+        await endWorkUseCase(EndWorkParams(tasks: tasks));
     result.fold((failure) {
       emit(EndWorkFailure(message: failure.message));
     }, (r) {

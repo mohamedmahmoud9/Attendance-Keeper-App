@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:attendance_keeper/core/constants/firebase_constants.dart';
 import 'package:attendance_keeper/core/errors/exception.dart';
 import 'package:attendance_keeper/core/usecases/usecase.dart';
@@ -39,7 +38,7 @@ class WorkingDetailsRemoteDataSourceImpl
           .set({
         "start_time": Timestamp.fromDate(dateTime),
         "end_time": null,
-        "tasks": null
+        "tasks": []
       });
       firestore
           .collection(FirebasePaths.users)
@@ -147,23 +146,18 @@ class WorkingDetailsRemoteDataSourceImpl
     } else {
       throw ServerException();
     }
-    //     .then((value) {
-    //   if (value.exists) {
-    //       return UserModel.fromSnapshot(value) ;
-    //   } else {
-    //     return null;
-    //   }
-    // });
   }
 }
 
 class Slot {
   final Timestamp start;
   final Timestamp? end;
-  final String? tasks;
+  final List<String> tasks;
   Slot({required this.start, required this.end, required this.tasks});
   factory Slot.formJson(Map<String, dynamic> json) {
     return Slot(
-        start: json['start_time'], end: json['end_time'], tasks: json['tasks']);
+        start: json['start_time'],
+        end: json['end_time'],
+        tasks: List<String>.from(json['tasks']));
   }
 }

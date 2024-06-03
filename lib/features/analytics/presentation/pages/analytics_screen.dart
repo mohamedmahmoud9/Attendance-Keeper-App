@@ -41,6 +41,7 @@ class AnalyticsScreen extends StatelessWidget {
                 initialData: const [],
                 builder: (BuildContext context,
                     AsyncSnapshot<List<WorkingDay>> snapshot) {
+                      
                   if (snapshot.hasError) {
                     return Center(
                       child: Text(tr('error')),
